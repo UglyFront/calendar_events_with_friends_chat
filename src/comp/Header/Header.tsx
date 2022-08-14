@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../store/store"
 import { IStyledHeader } from "../../App"
 import { setVisible } from "../../store/header"
 import {CloseOutlined, MenuOutlined, HomeTwoTone, CalendarTwoTone, SmileTwoTone, MessageTwoTone } from "@ant-design/icons"
+import { Link } from "react-router-dom"
 
 
 export interface HeaderProps {
@@ -49,7 +50,7 @@ const Handler = styled.div`
 
 
 
-const Header: React.FC<any> = (props) => {
+const Header: React.FC = () => {
     const visibleHeader = useAppSelector(state => state.reducer.headerReducer.visible)
     const dispatch = useAppDispatch()
 
@@ -58,10 +59,10 @@ const Header: React.FC<any> = (props) => {
             <Handler onClick={() => dispatch(setVisible())}>
                 <span>{visibleHeader ? <CloseOutlined /> : <MenuOutlined />}</span>
             </Handler>
-            <HomeTwoTone style={{fontSize: 40, marginBottom: "25vh", marginTop: "20px", marginLeft: "20px"}}/>
-            <CalendarTwoTone style={{fontSize: 40, marginBottom: "10px", marginTop: "20px", marginLeft: "20px"}}/>
-            <SmileTwoTone style={{fontSize: 40, marginBottom: "10px", marginTop: "20px", marginLeft: "20px"}}/>
-            <MessageTwoTone style={{fontSize: 40, marginBottom: "10px", marginTop: "20px", marginLeft: "20px"}}/>
+            <Link to="/home"><HomeTwoTone style={{fontSize: 40, marginBottom: "25vh", marginTop: "20px", marginLeft: "20px"}}/></Link>
+            <Link to="/"><CalendarTwoTone style={{fontSize: 40, marginBottom: "10px", marginTop: "20px", marginLeft: "20px"}}/></Link>
+            <Link to="/friends"><SmileTwoTone style={{fontSize: 40, marginBottom: "10px", marginTop: "20px", marginLeft: "20px"}}/></Link>
+            <Link to="/chats"><MessageTwoTone style={{fontSize: 40, marginBottom: "10px", marginTop: "20px", marginLeft: "20px"}}/></Link>
         </StyledHeader>
     )
 }

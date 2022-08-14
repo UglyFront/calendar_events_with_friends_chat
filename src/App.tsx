@@ -3,10 +3,9 @@ import { incrementYear, decrementYear, changeMonth, setYear, upRangeYear, downRa
 import Header from './comp/Header/Header';
 import React from 'react';
 import styled from 'styled-components';
-import { HeaderProps } from './comp/Header/Header';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Event from './page/event/Event';
-import { setVisibleMonth, setVisibleYear } from './store/header';
+import { setEventModalVisible, setVisibleMonth, setVisibleYear } from './store/header';
 import {UpOutlined, DownOutlined} from "@ant-design/icons"
 import { months } from './model/calendar';
 
@@ -75,7 +74,7 @@ const BlockedZone = styled.div`
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   background: rgba(0,0,0,0.7);
   z-index: 100;
   display: flex;
@@ -114,6 +113,70 @@ const BlockedZoneSelect = styled.div`
 `
 
 
+const AddEventModal = styled.div`
+  width: 300px;
+  height: 500px;
+  background: #fff;
+  padding: 10px 10px;
+
+  h3 {
+    font-weight: 400;
+    text-align: center;
+    margin-bottom: 20px;
+
+
+    &::first-letter {
+      color: #817FEF;
+    }
+  }
+
+  input {
+    width: 100%;
+    height: 30px;
+    margin-top: 10px;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid #a1a1a1;
+  }
+
+  span {
+    display: block;
+    color: red;
+    margin-bottom: 15px;
+  }
+
+  section {
+    width: 100%;
+    height: 150px;
+    overflow-y: scroll;
+    margin-top: 10px;
+
+    p {
+      width: 275px;
+      height: 50px;
+    }
+  }
+
+
+  button {
+    width: 60%;
+    display:block;
+    margin: 0 auto;
+    border: 0px;
+    background: #a1a1a1;
+    color: #fff;
+    padding: 10px 10px;
+    border-radius: 10px;
+    transition: .3s;
+    cursor: pointer;
+
+    &:hover {
+      background: #817FEF
+    }
+  }
+`
+
+
 const FlexWrapperBlockedZone = styled.div`
   width: 100%;
   padding: 10px 10px;
@@ -121,18 +184,29 @@ const FlexWrapperBlockedZone = styled.div`
 `
 
 
+const AsideFriends = styled.aside`
+  width: 300px;
+  height: 100vh;
+  background: #fff;
+  position: fixed;
+  right: 0;
+  transition: .3s
+`
+
 
 function App(): JSX.Element {
+  const dispatch = useAppDispatch()
 
   const visibleYear = useAppSelector(state => state.reducer.headerReducer.visibleYear)
   const visibleMonth = useAppSelector(state => state.reducer.headerReducer.visibleMonth)
   const year = useAppSelector(state => state.reducer.calendarReducer.year)
   const month = useAppSelector(state => state.reducer.calendarReducer.month)
   const yearRange = useAppSelector(state => state.reducer.calendarReducer.yearRange)
-  const dispatch = useAppDispatch()
-
-
+  const eventModalVisible = useAppSelector(state => state.reducer.headerReducer.eventModalVisible)
+  const selectDay = useAppSelector(state => state.reducer.headerReducer.selectDay)
   const visibleHeader = useAppSelector(state => state.reducer.headerReducer.visible)
+
+  const [visibleFriends, setVisibleFriends] = React.useState<boolean>(false)
 
 
   return (
@@ -143,7 +217,10 @@ function App(): JSX.Element {
         <Content visible = {visibleHeader}>
           <Routes>
             <Route path="/" element={<Event/>}/>
-            <Route path="/vvv" element={<h2>vvvvvvvvvvvvvvvvvvvvv</h2>}/>
+            <Route path="/home" element={<h2>home page</h2>}/>
+            <Route path="/friends" element={<h2>friends page</h2>}/>
+            <Route path="/chats" element={<h2>message page</h2>}/>
+            <Route path="*" element={<h1>404</h1>}/>
           </Routes>
           <ExitButton>
             Sign Up
@@ -178,6 +255,83 @@ function App(): JSX.Element {
             </FlexWrapperBlockedZone>
           </BlockedZoneSelect>
         </BlockedZone>}
+
+        {eventModalVisible && <BlockedZone onClick={() => {
+          if (visibleFriends) {
+            setVisibleFriends(false)
+          }
+          else {
+            dispatch(setEventModalVisible())
+          }
+        }}>
+            <AddEventModal onClick={(e) => e.stopPropagation()}>
+              <h3>Запланировать событие на {selectDay}</h3>
+              <input type="text" placeholder='Название'/>
+              <input type="text" placeholder='Описание'/>
+              <input type="text" placeholder='Начало'/>
+              <input type="text" placeholder='Окончание'/>
+              <span>Error zone</span>
+              <button onClick={() => {
+                setVisibleFriends(prev => !prev)
+              }}>Добавить друзей</button>
+              {/* тригерит правый сайдбар с френдсами*/}
+              <section>
+                <p>1 друг</p>
+                <p>1 друг</p>
+                <p>1 друг</p>
+                <p>1 друг</p>
+                <p>1 друг</p>
+                <p>1 друг</p>
+                <p>1 друг</p>
+                <p>1 друг</p>
+                <p>1 друг</p>
+                <p>1 друг</p>
+                <p>1 друг</p>
+                <p>1 друг</p>
+                <p>1 друг</p>
+                <p>1 друг</p>
+                <p>1 друг</p>
+                <p>1 друг</p>
+                <p>1 друг</p>
+                <p>1 друг</p>
+                <p>1 друг</p>
+                <p>1 друг</p>
+                <p>1 друг</p>
+
+              </section>
+              <button>Создать событие</button>
+            </AddEventModal>
+
+
+
+            <AsideFriends style = {visibleFriends ? {transform: "translateX(0%)"} : {transform: "translateX(100%)"}} onClick={(e) => e.stopPropagation()}>
+              <StyledH3>Ваши друзья</StyledH3>
+              <ul>
+                <li>1 друг</li>
+                <li>1 друг</li>
+                <li>1 друг</li>
+            
+                <li>1 друг</li>
+                <li>1 друг</li>
+              
+                <li>1 друг</li>
+                <li>1 друг</li>
+          
+                <li>1 друг</li>
+                <li>1 друг</li>
+                <li>1 друг</li>
+                <li>1 друг</li>
+          
+                <li>1 друг</li>
+                <li>1 друг</li>
+                <li>1 друг</li>
+                <li>1 друг</li>
+          
+                <li>1 друг</li>
+                <li>1 друг</li>
+              </ul>
+            </AsideFriends>
+          </BlockedZone>}
       </Wrapper>
     </div>
     </BrowserRouter>

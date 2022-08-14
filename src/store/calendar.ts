@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { months } from "../model/calendar";
 import { createCalendar } from "../model/calendar";
 import { IChangeMonth, ICalendarState } from "../types/calendar";
-import { setVisibleMonth } from "./header";
+
 
 const date = new Date().toString();
 const yearNow: number =  +date.split(" ")[3]
@@ -44,7 +44,6 @@ export const calendarSlice = createSlice({
                 state.year -= 1
                 state.yearRange = rangeYear(state.year)
                 state.calendar = createCalendar(state.month, state.year)
-
         },
         upRangeYear(state): void {
           let minYearInRange = state.yearRange[0]

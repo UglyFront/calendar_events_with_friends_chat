@@ -14,7 +14,7 @@ export interface IChangeMonth {
     value?: string
 }
 
-export type Calendar = IDay | null
+export type Calendar = IDay
 
 
 export interface ICalendarState {

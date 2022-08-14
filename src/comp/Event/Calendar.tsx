@@ -1,7 +1,9 @@
-import { toNamespacedPath } from "path"
 import styled from "styled-components"
+import { biggestDayNow } from "../../helpers/biggestDay"
 import { dayOfTheWeek } from "../../model/calendar"
+import { setCurrentDay } from "../../store/header"
 import { useAppDispatch, useAppSelector } from "../../store/store"
+import { Calendar } from "../../types/calendar"
 
 
 //width 120% on phone nice look! margin-left: -40px;
@@ -53,7 +55,7 @@ const CalendarEvent: React.FC = () => {
        <Grid>
         {dayOfTheWeek.map((dayWeek: string) => <p>{dayWeek}</p>)}
 
-        {calendar.map((el): JSX.Element => {
+        {calendar.map((el: Calendar): JSX.Element => {
             let elArr: string[] = el!.date.split("/"); // 10/Aug/2022
             let numEl: number = +elArr![0]
             let monthEl: string = elArr![1]
@@ -67,12 +69,27 @@ const CalendarEvent: React.FC = () => {
 
             if(monthEl == month) {
                 if (monthEl == monthToday && dayToday === numEl && yearEl === yearToday) {
-                    return <div className="today">{numEl} <small>{monthEl}</small></div>
+                    return <div className="today" onClick={() => {
+                        const real: boolean =  biggestDayNow([numEl, monthEl, yearEl]);
+                        if (real) {
+                            dispatch(setCurrentDay(el.date))
+                        }
+                    }}>{numEl} <small>{monthEl}</small></div>
                 }
-                return <div>{numEl} <small>{monthEl}</small></div>
+                return <div onClick={() => {
+                    const real: boolean =  biggestDayNow([numEl, monthEl, yearEl]);
+                    if (real) {
+                        dispatch(setCurrentDay(el.date))
+                    }
+                }}>{numEl} <small>{monthEl}</small></div>
             }
             else {
-                return <div className="notCurrentMonth">{numEl} <small>{monthEl}</small></div>
+                return <div className="notCurrentMonth" onClick={() => {
+                    const real: boolean =  biggestDayNow([numEl, monthEl, yearEl]);
+                    if (real) {
+                        dispatch(setCurrentDay(el.date))
+                    }
+                }}>{numEl} <small>{monthEl}</small></div>
             }
         })}
        </Grid>

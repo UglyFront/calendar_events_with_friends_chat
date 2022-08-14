@@ -1,15 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { HeaderState } from "../types/header";
+import { PayloadAction } from "@reduxjs/toolkit";
 
-interface HeaderState {
-    visible: boolean,
-    visibleYear: boolean,
-    visibleMonth: boolean
-}
 
 const state: HeaderState = {
     visible: true,
     visibleYear: false,
-    visibleMonth: false
+    visibleMonth: false,
+    eventModalVisible: false,
+    selectDay: ""
 }
 
 export const headerSlice = createSlice({
@@ -26,10 +25,18 @@ export const headerSlice = createSlice({
         setVisibleMonth(state) {
             state.visible = false
             state.visibleMonth = !state.visibleMonth
+        },
+        setCurrentDay(state, action: PayloadAction<string>): void {
+            state.selectDay = action.payload;
+            state.visible = false
+            state.eventModalVisible = true
+        },
+        setEventModalVisible(state) {
+            state.eventModalVisible = !state.eventModalVisible
         }
     }
 })
 
 
-export const {setVisible, setVisibleYear, setVisibleMonth} = headerSlice.actions
+export const {setVisible, setVisibleYear, setVisibleMonth, setCurrentDay, setEventModalVisible} = headerSlice.actions
 export default headerSlice.reducer

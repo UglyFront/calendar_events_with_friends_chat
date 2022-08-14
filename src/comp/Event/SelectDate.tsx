@@ -11,7 +11,7 @@ const WrapperDate = styled.div`
     margin-top: 40px;
     display: flex;
     justify-content: space-between;
-    margin-left: -65px
+    margin-left: -55px
 `
 
 const SelectMonth = styled.div`

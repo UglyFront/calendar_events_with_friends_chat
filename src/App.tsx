@@ -9,6 +9,7 @@ import {addEvent, setEventModalVisible, setVisibleMonth, setVisibleYear, setHand
 import {UpOutlined, DownOutlined} from "@ant-design/icons"
 import { months } from './model/calendar';
 import { IEvent } from './types/eventWithModals';
+import Home from './page/home/Home';
 
 
 export interface IStyledHeader {
@@ -70,12 +71,12 @@ const ExitButton = styled.button`
 `
 
 
-const BlockedZone = styled.div`
+export const BlockedZone = styled.div`
   position: fixed,
   top: 0;
   left: 0;
   width: 100vw;
-  min-height: 100vh;
+  height: 100vh;
   background: rgba(0,0,0,0.7);
   z-index: 100;
   display: flex;
@@ -211,13 +212,13 @@ const FlexWrapperBlockedZone = styled.div`
 `
 
 
-const AsideFriends = styled.aside`
+export const AsideFriends = styled.aside`
   width: 300px;
   height: 100vh;
   background: #fff;
   position: fixed;
   right: 0;
-  transition: .3s
+  top: 0;
 `
 
 
@@ -257,7 +258,7 @@ function App(): JSX.Element {
         <Content visible = {visibleHeader}>
           <Routes>
             <Route path="/" element={<Event/>}/>
-            <Route path="/home" element={<h2>home page</h2>}/>
+            <Route path="/home" element={<Home/>}/>
             <Route path="/friends" element={<h2>friends page</h2>}/>
             <Route path="/chats" element={<h2>message page</h2>}/>
             <Route path="*" element={<h1>404</h1>}/>
@@ -361,7 +362,13 @@ function App(): JSX.Element {
                 <p>1 друг</p>
 
               </section>
-              <button onClick={() => dispatch(addEvent())}>Создать событие</button>
+              <button onClick={() => {
+                dispatch(addEvent())
+                setNameBlur(false)
+                setDescBlur(false)
+                setEndBlur(false)
+                setStartBlur(false) // исправить сет фалс
+              }}>Создать событие</button>
             </AddEventModal>
 
 

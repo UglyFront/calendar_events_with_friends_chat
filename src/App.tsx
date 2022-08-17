@@ -5,9 +5,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Event from './page/event/Event';
-import { setEventModalVisible, setVisibleMonth, setVisibleYear } from './store/header';
+import {addEvent, setEventModalVisible, setVisibleMonth, setVisibleYear, setHandler, setCreateEventModalVisible, setColorNewEvent, setNameNewEvent, setdDescriptionNewEvent, setStartNewEvent, setEndNewEvent } from './store/eventWithModal';
 import {UpOutlined, DownOutlined} from "@ant-design/icons"
 import { months } from './model/calendar';
+import { IEvent } from './types/eventWithModals';
 
 
 export interface IStyledHeader {
@@ -81,7 +82,8 @@ const BlockedZone = styled.div`
   justify-content: center;
   align-items: center;
   margin-left: -90px;
-  transition: .3s
+  transition: .3s;
+  cursor: pointer;
 `
 
 
@@ -111,13 +113,22 @@ const BlockedZoneSelect = styled.div`
     }
   }
 `
+const EventsWrapper = styled.div`
+width: 300px;
+height: 500px;
+background: #fff;
 
+&::-webkit-scrollbar {
+  width: 5px
+}
+`
 
 const AddEventModal = styled.div`
   width: 300px;
-  height: 500px;
+  height: 550px;
   background: #fff;
   padding: 10px 10px;
+  cursor: auto;
 
   h3 {
     font-weight: 400;
@@ -132,7 +143,7 @@ const AddEventModal = styled.div`
 
   input {
     width: 100%;
-    height: 30px;
+    height: 25px;
     margin-top: 10px;
     outline: none;
     border: none;
@@ -142,7 +153,8 @@ const AddEventModal = styled.div`
   span {
     display: block;
     color: red;
-    margin-bottom: 15px;
+    margin-bottom: 5px;
+    font-size: 12px
   }
 
   section {
@@ -181,6 +193,21 @@ const FlexWrapperBlockedZone = styled.div`
   width: 100%;
   padding: 10px 10px;
   height: 200px;
+
+  button {
+    width: 60%;
+    height: 50px;
+    border: 0px;
+    background: #a1a1a1;
+    color: #fff;
+    border-radius: 10px;
+    transition: .3s;
+    cursor: pointer;
+
+    &:hover {
+      background: #817FEF
+    }
+  }
 `
 
 
@@ -194,6 +221,7 @@ const AsideFriends = styled.aside`
 `
 
 
+
 function App(): JSX.Element {
   const dispatch = useAppDispatch()
 
@@ -202,11 +230,23 @@ function App(): JSX.Element {
   const year = useAppSelector(state => state.reducer.calendarReducer.year)
   const month = useAppSelector(state => state.reducer.calendarReducer.month)
   const yearRange = useAppSelector(state => state.reducer.calendarReducer.yearRange)
+  const handlerEvent = useAppSelector(state => state.reducer.headerReducer.handlerEvent)
+  const createEventModalVisible = useAppSelector(state => state.reducer.headerReducer.createEventModalVisible)
   const eventModalVisible = useAppSelector(state => state.reducer.headerReducer.eventModalVisible)
   const selectDay = useAppSelector(state => state.reducer.headerReducer.selectDay)
   const visibleHeader = useAppSelector(state => state.reducer.headerReducer.visible)
+  const events = useAppSelector(state => state.reducer.headerReducer.events)
+  const newEvent = useAppSelector(state => state.reducer.headerReducer.newEvent)
+  const {nameError, descriptionError, timeEndError, timeStartError} = useAppSelector(state => state.reducer.headerReducer.newEvent)
 
   const [visibleFriends, setVisibleFriends] = React.useState<boolean>(false)
+
+
+
+  const [nameBlur, setNameBlur] = React.useState<boolean>(false)
+  const [descBlur, setDescBlur] = React.useState<boolean>(false)
+  const [startBlur, setStartBlur] = React.useState<boolean>(false)
+  const [endBlur, setEndBlur] = React.useState<boolean>(false)
 
 
   return (
@@ -229,6 +269,7 @@ function App(): JSX.Element {
 
 
 
+
         {visibleYear && <BlockedZone style={visibleYear ?  {opacity: 1, zIndex: 100, cursor: "pointer"} : {opacity: 0, zIndex: -100}} onClick={() => dispatch(setVisibleYear())}>
           <BlockedZoneSelect onClick={(e) => e.stopPropagation()} style={{cursor: "auto"}}>
             <div>
@@ -245,6 +286,7 @@ function App(): JSX.Element {
         </BlockedZone>}
 
 
+
         {visibleMonth && <BlockedZone style={visibleMonth ?  {opacity: 1, zIndex: 100, cursor: "pointer"} : {opacity: 0, zIndex: -100}} onClick={() => dispatch(setVisibleMonth())}>
           <BlockedZoneSelect onClick={(e) => e.stopPropagation()} style={{cursor: "auto"}}>
             <div>
@@ -256,21 +298,41 @@ function App(): JSX.Element {
           </BlockedZoneSelect>
         </BlockedZone>}
 
-        {eventModalVisible && <BlockedZone onClick={() => {
+
+
+
+        {handlerEvent && <BlockedZone onClick={() => dispatch(setHandler())}>
+            <BlockedZoneSelect onClick={(e) => e.stopPropagation()}>
+              <FlexWrapperBlockedZone>
+                <StyledH2>{selectDay}</StyledH2>
+                <button onClick={() => dispatch(setCreateEventModalVisible())}>Создать событие</button>
+                <button onClick = {() => dispatch(setEventModalVisible())}>Посмотреть события</button>
+              </FlexWrapperBlockedZone>
+            </BlockedZoneSelect>
+          </BlockedZone>}
+
+
+
+
+        {createEventModalVisible && <BlockedZone onClick={() => {
           if (visibleFriends) {
             setVisibleFriends(false)
           }
           else {
-            dispatch(setEventModalVisible())
+            dispatch(setCreateEventModalVisible())
           }
         }}>
             <AddEventModal onClick={(e) => e.stopPropagation()}>
               <h3>Запланировать событие на {selectDay}</h3>
-              <input type="text" placeholder='Название'/>
-              <input type="text" placeholder='Описание'/>
-              <input type="text" placeholder='Начало'/>
-              <input type="text" placeholder='Окончание'/>
-              <span>Error zone</span>
+              <input type="text" placeholder='Название' onBlur={() => setNameBlur(true)} onChange={(e) => dispatch(setNameNewEvent(e.target.value))}/>
+              {(nameError && nameBlur) && <span>{nameError}</span>}
+              <input type="text" placeholder='Описание' onBlur={() => setDescBlur(true)} onChange={(e) => dispatch(setdDescriptionNewEvent(e.target.value))}/>
+              {(descriptionError && descBlur) && <span>{descriptionError}</span>}
+              <input type="text" placeholder='Начало' onBlur={() => setStartBlur(true)} onChange={(e) => dispatch(setStartNewEvent(e.target.value))}/>
+              {(timeStartError && startBlur) && <span>{timeStartError}</span>}
+              <input type="text" placeholder='Окончание' onBlur={() => setEndBlur(true)} onChange={(e) => dispatch(setEndNewEvent(e.target.value))}/>
+              {(timeEndError && endBlur) && <span>{timeEndError}</span>}
+              <input type="color" value={newEvent.color} onChange={(e) => dispatch(setColorNewEvent(e.target.value))}/>
               <button onClick={() => {
                 setVisibleFriends(prev => !prev)
               }}>Добавить друзей</button>
@@ -299,7 +361,7 @@ function App(): JSX.Element {
                 <p>1 друг</p>
 
               </section>
-              <button>Создать событие</button>
+              <button onClick={() => dispatch(addEvent())}>Создать событие</button>
             </AddEventModal>
 
 
@@ -332,6 +394,28 @@ function App(): JSX.Element {
               </ul>
             </AsideFriends>
           </BlockedZone>}
+
+
+          {eventModalVisible && <BlockedZone onClick={() => dispatch(setEventModalVisible())}> 
+          <EventsWrapper>
+             {events.map((el: IEvent) => {
+              if (el.date == selectDay) {
+                return  <AddEventModal onClick={(e) => e.stopPropagation()}>
+                <h3>Cобытие на {selectDay} <br/> {el.timeStart} - {el.timeEnd}</h3>
+                <h3>{el.name}  <span style={{background: el.color, width: "12px", height: "12px", display: "inline-block", borderRadius: "50%"}}></span></h3>
+                <p>{el.description}</p>
+                <h3>Приглашеные</h3>
+                <section>
+                  {el.invites.map(id => <p>{id}</p>)}
+                </section>
+                <button>В чат!</button>
+                <button style={{background: "red", marginTop: "20px"}}>Отказаться...</button>
+                </AddEventModal>
+              }
+             })}
+               </EventsWrapper>
+            </BlockedZone>}
+
       </Wrapper>
     </div>
     </BrowserRouter>

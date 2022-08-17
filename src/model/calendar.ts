@@ -76,11 +76,6 @@ function getPrevMonthCalendar(month: string, year:number ): Calendar[] {
 
 
 
-
-
-
-
-
 function getNextMonthCalendar(month: string, year:number ): Calendar[] {
     let idx: number = months.indexOf(month)
     let nextMonth: string;
@@ -118,13 +113,8 @@ function getNextMonthCalendar(month: string, year:number ): Calendar[] {
 
 
 
-
-
-
-
 export function createCalendar(month: string, year: number): Calendar[] {
     let calendar: Calendar[] = []
-    console.log(month, year)
     const date = new Date(`1 ${month} ${year}`).toString()
     const dayOfWeek = date.split(" ")[0]
     const skip = getSkip(dayOfWeek)
@@ -148,7 +138,6 @@ export function createCalendar(month: string, year: number): Calendar[] {
 
     const day = getDayInMonth(month, year)
 
-    console.log(day)
 
    let iterat = 1;
 
@@ -172,7 +161,4 @@ if (calendar.length !== 42) {
 
     return calendar
 }
-
-
-
 

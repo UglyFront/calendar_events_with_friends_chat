@@ -2,7 +2,7 @@ import styled from "styled-components"
 import {UpOutlined, DownOutlined} from "@ant-design/icons"
 import { useAppSelector, useAppDispatch} from "../../store/store"
 import { changeMonth, decrementYear, incrementYear } from "../../store/calendar"
-import { setVisibleMonth, setVisibleYear } from "../../store/header"
+import { setVisibleMonth, setVisibleYear } from "../../store/eventWithModal"
 
 const WrapperDate = styled.div`
     max-width: 320px;

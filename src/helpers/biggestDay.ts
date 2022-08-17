@@ -31,6 +31,7 @@ export const biggestDayNow = (selectDate: (string | number)[]): boolean => {
     const yearSelect: number = +selectDate[2]
 
 
+
     if (yearSelect < yearToday) {
         alert("Вы не можете запланировать мероприятие на прошедший год")
         return false

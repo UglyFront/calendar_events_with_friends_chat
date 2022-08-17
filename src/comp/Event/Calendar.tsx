@@ -1,9 +1,10 @@
 import styled from "styled-components"
 import { biggestDayNow } from "../../helpers/biggestDay"
 import { dayOfTheWeek } from "../../model/calendar"
-import { setCurrentDay } from "../../store/header"
+import { setCurrentDay } from "../../store/eventWithModal"
 import { useAppDispatch, useAppSelector } from "../../store/store"
 import { Calendar } from "../../types/calendar"
+import { IEvent } from "../../types/eventWithModals"
 
 
 //width 120% on phone nice look! margin-left: -40px;
@@ -22,7 +23,24 @@ height: 100%;
     div {
         height: 100px;
         border: 1px solid #5790FF;
-        font-size: 22px
+        font-size: 22px;
+
+        .events {
+            width: 100%;
+            height: 70px;
+            display: flex;
+            border: none;
+            flex-wrap: wrap;
+
+            .event {
+                width: 15px;
+                height: 15px;
+                display: block;
+                border: none;
+                margin-right: 5px;
+                border-radius: 100%
+            }
+        }
     }
 
 
@@ -40,7 +58,7 @@ height: 100%;
         display: flex;
         align-items: flex-end;
         font-size: 20px;
-        font-weight: 500
+        font-weight: 500;
     }
 `
 
@@ -49,6 +67,7 @@ const CalendarEvent: React.FC = () => {
     const dispatch = useAppDispatch()
     const calendar = useAppSelector(state => state.reducer.calendarReducer.calendar)
     const month = useAppSelector(state => state.reducer.calendarReducer.month)
+    const events = useAppSelector(state => state.reducer.headerReducer.events)
 
 
     return (
@@ -74,14 +93,30 @@ const CalendarEvent: React.FC = () => {
                         if (real) {
                             dispatch(setCurrentDay(el.date))
                         }
-                    }}>{numEl} <small>{monthEl}</small></div>
+                    }}>{numEl} <small>{monthEl}</small>
+                             <div className="events">
+                    {events.map((event: IEvent) => {
+                            if(event.date == el.date) {
+                                return <div className="event" style={{background: event.color}}></div>
+                            }
+                        })}
+                    </div>
+                    </div>
                 }
                 return <div onClick={() => {
                     const real: boolean =  biggestDayNow([numEl, monthEl, yearEl]);
                     if (real) {
                         dispatch(setCurrentDay(el.date))
                     }
-                }}>{numEl} <small>{monthEl}</small></div>
+                }}>{numEl} <small>{monthEl}</small>
+                            <div className="events">
+                    {events.map((event: IEvent) => {
+                            if(event.date == el.date) {
+                                return <div className="event" style={{background: event.color}}></div>
+                            }
+                        })}
+                    </div>
+                </div>
             }
             else {
                 return <div className="notCurrentMonth" onClick={() => {
@@ -89,7 +124,15 @@ const CalendarEvent: React.FC = () => {
                     if (real) {
                         dispatch(setCurrentDay(el.date))
                     }
-                }}>{numEl} <small>{monthEl}</small></div>
+                }}>{numEl} <small>{monthEl}</small>
+                    <div className="events">
+                    {events.map((event: IEvent) => {
+                            if(event.date == el.date) {
+                                return <div className="event" style={{background: event.color}}></div>
+                            }
+                        })}
+                    </div>
+                </div>
             }
         })}
        </Grid>

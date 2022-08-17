@@ -1,7 +1,7 @@
 import styled from "styled-components"
 import { useAppDispatch, useAppSelector } from "../../store/store"
 import { IStyledHeader } from "../../App"
-import { setVisible } from "../../store/header"
+import { setVisible } from "../../store/eventWithModal"
 import {CloseOutlined, MenuOutlined, HomeTwoTone, CalendarTwoTone, SmileTwoTone, MessageTwoTone } from "@ant-design/icons"
 import { Link } from "react-router-dom"
 

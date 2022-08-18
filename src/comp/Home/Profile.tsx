@@ -2,10 +2,12 @@ import styled from "styled-components"
 import React, { useEffect } from "react"
 import { StyledH3 } from "../../App"
 import ListEvent from "./ListEvent"
+import FriendsItem from "../Friends/FriendsItem"
 
 
-interface ImgProps {
-    img: string
+export interface ImgProps {
+    img: string,
+    min?: boolean
 }
 
 
@@ -58,9 +60,9 @@ const WrapperProfile = styled.div`
 `
 
 
-const ProfileImg = styled.div<ImgProps>`
-    width: 150px;
-    height: 150px;
+export const ProfileImg = styled.div<ImgProps>`
+    width: ${(props) => props.min? "60px": "150px"};
+    height:  ${(props) => props.min? "60px": "150px"};
     background: url(${(props) => props.img}) center no-repeat;
     background-size: cover;
     border-radius: 50%;
@@ -117,8 +119,9 @@ transition: .5s;
 
 .close {
     position: absolute;
-    bottom: 0;
-    width: 100%;
+    top: 0;
+    left: 0;
+    width: 20px;
     height: 20px;
     background: red;
     color: #fff;
@@ -149,30 +152,36 @@ const Profile: React.FC = () => {
 
 
         <AsideFriends style={sidebar ? {transform: "translateX(0%)"} : {transform: "translateX(100%)"}}>
-        <StyledH3>Ваши друзья</StyledH3>
+        <StyledH3 style={{marginBottom: "20px"}}>Ваши друзья</StyledH3>
       <ul>
-        <li>1 друг</li>
-        <li>1 друг</li>
-        <li>1 друг</li>
-    
-        <li>1 друг</li>
-        <li>1 друг</li>
-      
-        <li>1 друг</li>
-        <li>1 друг</li>
-  
-        <li>1 друг</li>
-        <li>1 друг</li>
-        <li>1 друг</li>
-        <li>1 друг</li>
-  
-        <li>1 друг</li>
-        <li>1 друг</li>
-        <li>1 друг</li>
-        <li>1 друг</li>
-  
-        <li>1 друг</li>
-        <li>1 друг</li>
+        <FriendsItem my={true}/>
+        <FriendsItem my={true}/>
+        <FriendsItem my={true}/>
+        <FriendsItem my={true}/>
+        <FriendsItem my={true}/>
+        <FriendsItem my={true}/>
+        <FriendsItem my={true}/>
+        <FriendsItem my={true}/>
+        <FriendsItem my={true}/>
+        <FriendsItem my={true}/>
+        <FriendsItem my={true}/>
+        <FriendsItem my={true}/>
+        <FriendsItem my={true}/>
+        <FriendsItem my={true}/>
+        <FriendsItem my={true}/>
+        <FriendsItem my={true}/>
+        <FriendsItem my={true}/>
+        <FriendsItem my={true}/>
+        <FriendsItem my={true}/>
+        <FriendsItem my={true}/>
+        <FriendsItem my={true}/>
+        <FriendsItem my={true}/>
+        <FriendsItem my={true}/>
+        <FriendsItem my={true}/>
+        <FriendsItem my={true}/>
+        <FriendsItem my={true}/>
+        <FriendsItem my={true}/>
+        <FriendsItem my={true}/>
       </ul>
 
 

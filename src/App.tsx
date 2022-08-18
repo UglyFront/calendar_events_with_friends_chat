@@ -10,6 +10,9 @@ import {UpOutlined, DownOutlined} from "@ant-design/icons"
 import { months } from './model/calendar';
 import { IEvent } from './types/eventWithModals';
 import Home from './page/home/Home';
+import Friends from './page/friends/Friends';
+import Messages from './page/messages/Messages';
+import FriendsItem from './comp/Friends/FriendsItem';
 
 
 export interface IStyledHeader {
@@ -224,6 +227,7 @@ export const AsideFriends = styled.aside`
 
 
 function App(): JSX.Element {
+  console.log("globsal RERENDER")
   const dispatch = useAppDispatch()
 
   const visibleYear = useAppSelector(state => state.reducer.headerReducer.visibleYear)
@@ -259,8 +263,9 @@ function App(): JSX.Element {
           <Routes>
             <Route path="/" element={<Event/>}/>
             <Route path="/home" element={<Home/>}/>
-            <Route path="/friends" element={<h2>friends page</h2>}/>
-            <Route path="/chats" element={<h2>message page</h2>}/>
+            <Route path="/friends" element={<Friends/>}/>
+            <Route path="/chats" element={<Messages/>}/>
+            <Route path="/chats/:id" element={<h1>чат с ид</h1>}/>
             <Route path="*" element={<h1>404</h1>}/>
           </Routes>
           <ExitButton>
@@ -337,7 +342,9 @@ function App(): JSX.Element {
               <button onClick={() => {
                 setVisibleFriends(prev => !prev)
               }}>Добавить друзей</button>
-              {/* тригерит правый сайдбар с френдсами*/}
+
+
+
               <section>
                 <p>1 друг</p>
                 <p>1 друг</p>
@@ -360,8 +367,10 @@ function App(): JSX.Element {
                 <p>1 друг</p>
                 <p>1 друг</p>
                 <p>1 друг</p>
-
               </section>
+
+
+
               <button onClick={() => {
                 dispatch(addEvent())
                 setNameBlur(false)
@@ -374,30 +383,15 @@ function App(): JSX.Element {
 
 
             <AsideFriends style = {visibleFriends ? {transform: "translateX(0%)"} : {transform: "translateX(100%)"}} onClick={(e) => e.stopPropagation()}>
-              <StyledH3>Ваши друзья</StyledH3>
+              <StyledH3 style={{marginBottom: "20px"}}>Ваши друзья</StyledH3>
               <ul>
-                <li>1 друг</li>
-                <li>1 друг</li>
-                <li>1 друг</li>
-            
-                <li>1 друг</li>
-                <li>1 друг</li>
-              
-                <li>1 друг</li>
-                <li>1 друг</li>
-          
-                <li>1 друг</li>
-                <li>1 друг</li>
-                <li>1 друг</li>
-                <li>1 друг</li>
-          
-                <li>1 друг</li>
-                <li>1 друг</li>
-                <li>1 друг</li>
-                <li>1 друг</li>
-          
-                <li>1 друг</li>
-                <li>1 друг</li>
+                <FriendsItem my={true}/>
+                <FriendsItem my={true}/>
+                <FriendsItem my={true}/>
+                <FriendsItem my={true}/>
+                <FriendsItem my={true}/>
+                <FriendsItem my={true}/>
+                <FriendsItem my={true}/>
               </ul>
             </AsideFriends>
           </BlockedZone>}

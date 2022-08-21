@@ -20,6 +20,7 @@ const SelectMonth = styled.div`
    display: flex;
    flex-direction: column;
    align-items: center;
+   cursor: pointer;
 `
 
 
@@ -28,7 +29,8 @@ const SelectYear = styled.div`
    height: 100%;
    display: flex;
    flex-direction: column;
-   align-items: center
+   align-items: center;
+   cursor: pointer;
 `
 
 

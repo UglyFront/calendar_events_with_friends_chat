@@ -63,7 +63,12 @@ height: 100%;
 `
 
 
-const CalendarEvent: React.FC = () => {
+interface C {
+    top: any
+}
+
+
+const CalendarEvent: React.FC<C> = (props) => {
     const dispatch = useAppDispatch()
     const calendar = useAppSelector(state => state.reducer.calendarReducer.calendar)
     const month = useAppSelector(state => state.reducer.calendarReducer.month)
@@ -91,6 +96,7 @@ const CalendarEvent: React.FC = () => {
                     return <div className="today" onClick={() => {
                         const real: boolean =  biggestDayNow([numEl, monthEl, yearEl]);
                         if (real) {
+                            props.top.current.scrollIntoView()
                             dispatch(setCurrentDay(el.date))
                         }
                     }}>{numEl} <small>{monthEl}</small>
@@ -106,6 +112,7 @@ const CalendarEvent: React.FC = () => {
                 return <div onClick={() => {
                     const real: boolean =  biggestDayNow([numEl, monthEl, yearEl]);
                     if (real) {
+                        props.top.current.scrollIntoView()
                         dispatch(setCurrentDay(el.date))
                     }
                 }}>{numEl} <small>{monthEl}</small>
@@ -122,6 +129,7 @@ const CalendarEvent: React.FC = () => {
                 return <div className="notCurrentMonth" onClick={() => {
                     const real: boolean =  biggestDayNow([numEl, monthEl, yearEl]);
                     if (real) {
+                        props.top.current.scrollIntoView()
                         dispatch(setCurrentDay(el.date))
                     }
                 }}>{numEl} <small>{monthEl}</small>

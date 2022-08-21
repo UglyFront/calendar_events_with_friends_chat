@@ -12,7 +12,9 @@ import { IEvent } from './types/eventWithModals';
 import Home from './page/home/Home';
 import Friends from './page/friends/Friends';
 import Messages from './page/messages/Messages';
+import { createGlobalStyle } from 'styled-components';
 import FriendsItem from './comp/Friends/FriendsItem';
+import Chat from './page/chat/Chat';
 
 
 export interface IStyledHeader {
@@ -23,6 +25,7 @@ export interface IStyledHeader {
 
 const Wrapper = styled.div`
   display: flex;
+  overflow-y: hidden;
 `
 
 
@@ -76,10 +79,9 @@ const ExitButton = styled.button`
 
 export const BlockedZone = styled.div`
   position: fixed,
-  top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: 110vh;
   background: rgba(0,0,0,0.7);
   z-index: 100;
   display: flex;
@@ -222,12 +224,34 @@ export const AsideFriends = styled.aside`
   position: fixed;
   right: 0;
   top: 0;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    width: 1px;
+  }
 `
+
+
+interface Modal {
+  visibleMonth: boolean,
+  visibleYear: boolean,
+  eventModalVisible: boolean,
+  createEventModalVisible: boolean,
+  handlerEvent: boolean
+}
+
+const GlobalStyle = createGlobalStyle<Modal>`
+ * {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  font-family: 'Montserrat', sans-serif;
+  overflow: ${({handlerEvent, visibleMonth, visibleYear, eventModalVisible, createEventModalVisible}) => visibleMonth || visibleYear || eventModalVisible || createEventModalVisible || handlerEvent? "hidden" : ""};
+}`
 
 
 
 function App(): JSX.Element {
-  console.log("globsal RERENDER")
   const dispatch = useAppDispatch()
 
   const visibleYear = useAppSelector(state => state.reducer.headerReducer.visibleYear)
@@ -254,8 +278,11 @@ function App(): JSX.Element {
   const [endBlur, setEndBlur] = React.useState<boolean>(false)
 
 
+
+
   return (
     <BrowserRouter>
+    <GlobalStyle handlerEvent={handlerEvent} createEventModalVisible={createEventModalVisible} eventModalVisible={eventModalVisible} visibleMonth={visibleMonth} visibleYear={visibleYear}/>
     <div className="App">
       <Wrapper>
         <Header/>
@@ -265,7 +292,7 @@ function App(): JSX.Element {
             <Route path="/home" element={<Home/>}/>
             <Route path="/friends" element={<Friends/>}/>
             <Route path="/chats" element={<Messages/>}/>
-            <Route path="/chats/:id" element={<h1>чат с ид</h1>}/>
+            <Route path="/chats/:id" element={<Chat/>}/>
             <Route path="*" element={<h1>404</h1>}/>
           </Routes>
           <ExitButton>
@@ -307,7 +334,9 @@ function App(): JSX.Element {
 
 
 
-        {handlerEvent && <BlockedZone onClick={() => dispatch(setHandler())}>
+        {handlerEvent && <BlockedZone onClick={() => {
+
+          dispatch(setHandler())}}>
             <BlockedZoneSelect onClick={(e) => e.stopPropagation()}>
               <FlexWrapperBlockedZone>
                 <StyledH2>{selectDay}</StyledH2>
@@ -385,6 +414,22 @@ function App(): JSX.Element {
             <AsideFriends style = {visibleFriends ? {transform: "translateX(0%)"} : {transform: "translateX(100%)"}} onClick={(e) => e.stopPropagation()}>
               <StyledH3 style={{marginBottom: "20px"}}>Ваши друзья</StyledH3>
               <ul>
+                <FriendsItem my={true}/>
+                <FriendsItem my={true}/>
+                <FriendsItem my={true}/>
+                <FriendsItem my={true}/>
+                <FriendsItem my={true}/>
+                <FriendsItem my={true}/>
+                <FriendsItem my={true}/>
+                <FriendsItem my={true}/>
+                <FriendsItem my={true}/>
+                <FriendsItem my={true}/>
+                <FriendsItem my={true}/>
+                <FriendsItem my={true}/>
+                <FriendsItem my={true}/>
+                <FriendsItem my={true}/>
+                <FriendsItem my={true}/>
+                <FriendsItem my={true}/>
                 <FriendsItem my={true}/>
                 <FriendsItem my={true}/>
                 <FriendsItem my={true}/>

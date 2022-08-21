@@ -4,31 +4,19 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
-import { createGlobalStyle } from 'styled-components';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-const GlobalStyle = createGlobalStyle`
- * {
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-  font-family: 'Montserrat', sans-serif;
- }
-`
 
 
 
 
 root.render(
-  <>
-  <GlobalStyle/>
   <Provider store = {store}>
       <App />
   </Provider>
-  </>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -8,9 +8,13 @@ import FriendsItem from "./FriendsItem"
 
 export const List = styled.div`
     max-width: 600px;
-    height: 100%;
+    height: 70vh;
     margin-top: 20px;
-    padding: 5px
+    padding: 5px;
+
+    &::-webkit-scrollbar {
+        width: 1px;
+      }
 `
 
 const ListFriends: React.FC = (props) => {

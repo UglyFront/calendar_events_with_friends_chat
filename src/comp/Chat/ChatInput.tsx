@@ -1,21 +1,45 @@
 import styled from "styled-components"
 import { End } from "./ChatList";
+import {EditTwoTone, AudioTwoTone, PictureTwoTone} from "@ant-design/icons"
+import { useRef } from "react";
 
 
 
 
 const Form = styled.form`
-    width: calc(98% - 60px);
+    width: calc(98% - 230px);
     height: 45px;
 
     input {
         width: 70%;
         height: 40px;
+        border: 0px;
+        border-bottom: 1px solid #a1a1a1;
+        outline: none;
+
+        &:focus {
+            border-bottom: 1px solid cyan;
+        }
     }
 
     button {
         width: 60px;
-        height: 100%
+        height: 40px;
+        border: none;
+        cursor: pointer;
+    }
+
+    label {
+        padding-left: 20px;
+        cursor: pointer;
+    }
+
+    input[type="file"] {
+        display: none;
+    }
+
+    svg {
+        font-size:16px;
     }
 `
 
@@ -23,14 +47,26 @@ const Form = styled.form`
 
 const ChatInput: React.FC<End>  = ({end}) => {
 
+    const inp = useRef<any>()
+
 
     return(
         <Form>
-            <input type="text" placeholder="msg"/>
+            <input ref={inp} type="text" placeholder="msg"/>
             <button type="submit" onClick={(e) => {
                 e.preventDefault();
-                end.current.current.scrollIntoView()
-            }}>Send</button>
+
+                if (inp.current.value.length >= 1) {
+                    end.current.current.scrollIntoView()
+                    inp.current.value = ""
+                }
+            }}><EditTwoTone /></button>
+
+
+        <button onClick={(e) => {
+                 e.preventDefault();
+            }}><AudioTwoTone /></button>
+        <input id="file" type="file"  accept="image/png, image/jpeg, ,.mp3, .mp4, .wav, .avi"/><label htmlFor="file"><PictureTwoTone /></label>
         </Form>
     )
 }

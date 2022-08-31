@@ -3,6 +3,8 @@ import React, { useEffect } from "react"
 import { StyledH3 } from "../../App"
 import ListEvent from "./ListEvent"
 import FriendsItem from "../Friends/FriendsItem"
+import { useAppSelector } from "../../store/store"
+import { statusFriends } from "../../types/user"
 
 
 export interface ImgProps {
@@ -132,6 +134,8 @@ transition: .5s;
 
 const Profile: React.FC = () => {
     const [sidebar, setSidebar] = React.useState<boolean>(false)
+    const user = useAppSelector(state => state.reducer.userReducer.user)
+    const friends = useAppSelector(state => state.reducer.userReducer.friends)
 
     return (
         <>
@@ -139,8 +143,8 @@ const Profile: React.FC = () => {
         <WrapperProfile>
             <ProfileImg img = "https://www.meme-arsenal.com/memes/566c9cf04de6c790122fc835ae032c23.jpg"/>
             <div className="wrapper_text">
-                <h2>Погода Данил Петрович</h2>
-                <h3>Status StatusStatusStatus.</h3>
+                <h2>{user.name || 341}</h2>
+                <h3>{user.statusText || "Empty"}</h3>
             </div>
         </WrapperProfile>
         <div className="friends" onClick={() => setSidebar(prev => !prev)}>Друзья</div>
@@ -154,35 +158,31 @@ const Profile: React.FC = () => {
         <AsideFriends style={sidebar ? {transform: "translateX(0%)"} : {transform: "translateX(100%)"}}>
         <StyledH3 style={{marginBottom: "20px"}}>Ваши друзья</StyledH3>
       <ul>
-        <FriendsItem my={true}/>
-        <FriendsItem my={true}/>
-        <FriendsItem my={true}/>
-        <FriendsItem my={true}/>
-        <FriendsItem my={true}/>
-        <FriendsItem my={true}/>
-        <FriendsItem my={true}/>
-        <FriendsItem my={true}/>
-        <FriendsItem my={true}/>
-        <FriendsItem my={true}/>
-        <FriendsItem my={true}/>
-        <FriendsItem my={true}/>
-        <FriendsItem my={true}/>
-        <FriendsItem my={true}/>
-        <FriendsItem my={true}/>
-        <FriendsItem my={true}/>
-        <FriendsItem my={true}/>
-        <FriendsItem my={true}/>
-        <FriendsItem my={true}/>
-        <FriendsItem my={true}/>
-        <FriendsItem my={true}/>
-        <FriendsItem my={true}/>
-        <FriendsItem my={true}/>
-        <FriendsItem my={true}/>
-        <FriendsItem my={true}/>
-        <FriendsItem my={true}/>
-        <FriendsItem my={true}/>
-        <FriendsItem my={true}/>
+           {friends.map((el: any) =>  {
+                        if (el.status == statusFriends.ACCEPT) {
+                            return <FriendsItem my={true} profile={el.friend}/>
+                        }
+                    })}
       </ul>
+
+      <StyledH3 style={{marginBottom: "20px"}}>Ожидаем действия</StyledH3>
+      <ul>
+           {friends.map((el: any) =>  {
+                        if (el.status == statusFriends.SEND && el.sender === user.id) {
+                            return <FriendsItem profile={el.friend} my={true}/>
+                        }
+                    })}
+      </ul>
+
+      <StyledH3 style={{marginBottom: "20px"}}>Хотят дружить</StyledH3>
+      <ul>
+           {friends.map((el: any) =>  {
+                        if (el.status == statusFriends.SEND && el.reciver === user.id) {
+                            return <FriendsItem profile={el.friend} accept={true}/>
+                        }
+                    })}
+      </ul>
+
 
 
       <div className="close" onClick={() => setSidebar(prev => !prev)}>X</div>

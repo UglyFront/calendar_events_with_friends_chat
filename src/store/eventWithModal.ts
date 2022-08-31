@@ -1,8 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { HeaderState, IEvent } from "../types/eventWithModals";
+import { HeaderState, IEvent, UserOther } from "../types/eventWithModals";
 import { PayloadAction } from "@reduxjs/toolkit";
-import { matchRoutes } from "react-router-dom";
-import SelectDate from "../comp/Event/SelectDate";
 
 
 
@@ -23,301 +21,23 @@ const state: HeaderState = {
     eventModalVisible: false,
     handlerEvent: false,
     selectDay: "",
-    events: [
-    {
-        date: "18/Aug/2022",
-        color: "red",
-        invites: [2,5,9,3],
-        name: "Блядки",
-        description: "опаоаоваовоавоаовоава",
-        timeStart: "12:00",
-        timeEnd: "14:00",
-    },
-    {
-        date: "20/Aug/2022",
-        color: "yellow",
-        invites: [2,5,9,3],
-        name: "Блядки",
-        description: "опаоаоваовоавоаовоава",
-        timeStart: "12:00",
-        timeEnd: "14:00",
-    },
-    {
-        date: "20/Aug/2022",
-        color: "blue",
-        invites: [2,5,9,3],
-        name: "Блядки",
-        description: "опаоаоваовоавоаовоава",
-        timeStart: "12:00",
-        timeEnd: "14:00",
-    },
-    {
-        date: "20/Aug/2022",
-        color: "green",
-        invites: [2,5,9,3],
-        name: "Блядки",
-        description: "опаоаоваовоавоаовоава",
-        timeStart: "12:00",
-        timeEnd: "14:00",
-    },
-    {
-        date: "20/Aug/2022",
-        color: "cyan",
-        invites: [2,5,9,3],
-        name: "Блядки",
-        description: "опаоаоваовоавоаовоава",
-        timeStart: "12:00",
-        timeEnd: "14:00",
-    },
-    {
-        date: "20/Aug/2022",
-        color: "green",
-        invites: [2,5,9,3],
-        name: "Блядки",
-        description: "опаоаоваовоавоаовоава",
-        timeStart: "12:00",
-        timeEnd: "14:00",
-    },
-    {
-        date: "20/Aug/2022",
-        color: "cyan",
-        invites: [2,5,9,3],
-        name: "Блядки",
-        description: "опаоаоваовоавоаовоава",
-        timeStart: "12:00",
-        timeEnd: "14:00",
-    },
-    {
-        date: "20/Aug/2022",
-        color: "green",
-        invites: [2,5,9,3],
-        name: "Блядки",
-        description: "опаоаоваовоавоаовоава",
-        timeStart: "12:00",
-        timeEnd: "14:00",
-    },
-    {
-        date: "20/Aug/2022",
-        color: "cyan",
-        invites: [2,5,9,3],
-        name: "Блядки",
-        description: "опаоаоваовоавоаовоава",
-        timeStart: "12:00",
-        timeEnd: "14:00",
-    },
-    {
-        date: "20/Aug/2022",
-        color: "green",
-        invites: [2,5,9,3],
-        name: "Блядки",
-        description: "опаоаоваовоавоаовоава",
-        timeStart: "12:00",
-        timeEnd: "14:00",
-    },
-    {
-        date: "20/Aug/2022",
-        color: "cyan",
-        invites: [2,5,9,3],
-        name: "Блядки",
-        description: "опаоаоваовоавоаовоава",
-        timeStart: "12:00",
-        timeEnd: "14:00",
-    },
-    {
-        date: "20/Aug/2022",
-        color: "green",
-        invites: [2,5,9,3],
-        name: "Блядки",
-        description: "опаоаоваовоавоаовоава",
-        timeStart: "12:00",
-        timeEnd: "14:00",
-    },
-    {
-        date: "20/Aug/2022",
-        color: "cyan",
-        invites: [2,5,9,3],
-        name: "Блядки",
-        description: "опаоаоваовоавоаовоава",
-        timeStart: "12:00",
-        timeEnd: "14:00",
-    },
-    {
-        date: "20/Aug/2022",
-        color: "green",
-        invites: [2,5,9,3],
-        name: "Блядки",
-        description: "опаоаоваовоавоаовоава",
-        timeStart: "12:00",
-        timeEnd: "14:00",
-    },
-    {
-        date: "20/Aug/2022",
-        color: "cyan",
-        invites: [2,5,9,3],
-        name: "Блядки",
-        description: "опаоаоваовоавоаовоава",
-        timeStart: "12:00",
-        timeEnd: "14:00",
-    },
-    {
-        date: "20/Aug/2022",
-        color: "green",
-        invites: [2,5,9,3],
-        name: "Блядки",
-        description: "опаоаоваовоавоаовоава",
-        timeStart: "12:00",
-        timeEnd: "14:00",
-    },
-    {
-        date: "20/Aug/2022",
-        color: "cyan",
-        invites: [2,5,9,3],
-        name: "Блядки",
-        description: "опаоаоваовоавоаовоава",
-        timeStart: "12:00",
-        timeEnd: "14:00",
-    },
-    {
-        date: "20/Aug/2022",
-        color: "green",
-        invites: [2,5,9,3],
-        name: "Блядки",
-        description: "опаоаоваовоавоаовоава",
-        timeStart: "12:00",
-        timeEnd: "14:00",
-    },
-    {
-        date: "20/Aug/2022",
-        color: "cyan",
-        invites: [2,5,9,3],
-        name: "Блядки",
-        description: "опаоаоваовоавоаовоава",
-        timeStart: "12:00",
-        timeEnd: "14:00",
-    },
-    {
-        date: "20/Aug/2022",
-        color: "green",
-        invites: [2,5,9,3],
-        name: "Блядки",
-        description: "опаоаоваовоавоаовоава",
-        timeStart: "12:00",
-        timeEnd: "14:00",
-    },
-    {
-        date: "20/Aug/2022",
-        color: "cyan",
-        invites: [2,5,9,3],
-        name: "Блядки",
-        description: "опаоаоваовоавоаовоава",
-        timeStart: "12:00",
-        timeEnd: "14:00",
-    },
-
-    {
-        date: "20/Aug/2022",
-        color: "green",
-        invites: [2,5,9,3],
-        name: "Блядки",
-        description: "опаоаоваовоавоаовоава",
-        timeStart: "12:00",
-        timeEnd: "14:00",
-    },
-    {
-        date: "20/Aug/2022",
-        color: "cyan",
-        invites: [2,5,9,3],
-        name: "Блядки",
-        description: "опаоаоваовоавоаовоава",
-        timeStart: "12:00",
-        timeEnd: "14:00",
-    },
-    {
-        date: "20/Aug/2022",
-        color: "green",
-        invites: [2,5,9,3],
-        name: "Блядки",
-        description: "опаоаоваовоавоаовоава",
-        timeStart: "12:00",
-        timeEnd: "14:00",
-    },
-    {
-        date: "20/Aug/2022",
-        color: "cyan",
-        invites: [2,5,9,3],
-        name: "Блядки",
-        description: "опаоаоваовоавоаовоава",
-        timeStart: "12:00",
-        timeEnd: "14:00",
-    },
-    {
-        date: "20/Aug/2022",
-        color: "green",
-        invites: [2,5,9,3],
-        name: "Блядки",
-        description: "опаоаоваовоавоаовоава",
-        timeStart: "12:00",
-        timeEnd: "14:00",
-    },
-    {
-        date: "20/Aug/2022",
-        color: "cyan",
-        invites: [2,5,9,3],
-        name: "Блядки",
-        description: "опаоаоваовоавоаовоава",
-        timeStart: "12:00",
-        timeEnd: "14:00",
-    },
-    {
-        date: "20/Aug/2022",
-        color: "green",
-        invites: [2,5,9,3],
-        name: "Блядки",
-        description: "опаоаоваовоавоаовоава",
-        timeStart: "12:00",
-        timeEnd: "14:00",
-    },
-    {
-        date: "23/Aug/2022",
-        color: "red",
-        invites: [2,5,9,3],
-        name: "Блядки",
-        description: "опаоаоваовоавоаовоава",
-        timeStart: "12:00",
-        timeEnd: "14:00",
-    },
-    {
-        date: "23/Aug/2022",
-        color: "green",
-        invites: [2,5,9,3],
-        name: "Блядки",
-        description: "опаоаоваовоавоаовоава",
-        timeStart: "12:00",
-        timeEnd: "14:00",
-    },
-    {
-        date: "23/Sep/2022",
-        color: "green",
-        invites: [2,5,9,3],
-        name: "Блядки",
-        description: "опаоаоваовоавоаовоава",
-        timeStart: "12:00",
-        timeEnd: "14:00",
-    },
-    ],
+    events: [],
     newEvent: {
         date: "",
         color: randColor(),
         invites: [],
         name: "",
         description: "",
-        timeStart: "",
-        timeEnd: "",
+        timestart: "",
+        timeend: "",
         nameError: "",
         descriptionError: "",
         timeEndError: "",
-        timeStartError: ""
-    }
+        timeStartError: "",
+        ownerId: 0
+    },
+
+    modalAuth: false
 }
 
 
@@ -325,6 +45,9 @@ export const headerSlice = createSlice({
     name: "header",
     initialState: state,
     reducers: {
+        setModalAuth(state): void {
+            state.modalAuth = !state.modalAuth
+        },
         setVisible(state): void {
             state.visible = !state.visible
         },
@@ -399,64 +122,70 @@ export const headerSlice = createSlice({
         },
 
         setStartNewEvent(state, action:PayloadAction<string>): void  {
-            if (state.newEvent.timeStart.length < 3) {
+            if (state.newEvent.timestart.length < 3) {
                 state.newEvent.timeStartError = "Больше 3х символов"
             }
             else {
                 state.newEvent.timeStartError = ""
             }
-            state.newEvent.timeStart = action.payload
-            console.log(state.newEvent.timeStart)
+            state.newEvent.timestart = action.payload
+            console.log(state.newEvent.timestart)
         },
 
         setEndNewEvent(state, action:PayloadAction<string>): void  {
-            if (state.newEvent.timeEnd.length < 3) {
+            if (state.newEvent.timeend.length < 3) {
                 state.newEvent.timeEndError = "Больше 3х символов"
             }
             else {
                 state.newEvent.timeEndError = ""
             }
-            state.newEvent.timeEnd = action.payload
-            console.log(state.newEvent.timeEnd)
+            state.newEvent.timeend = action.payload
+            console.log(state.newEvent.timeend)
         },
 
-        addEvent(state): void  {
-            if ((state.newEvent.nameError && state.newEvent.descriptionError && state.newEvent.timeStartError && state.newEvent.timeEndError) === "" && (state.newEvent.name.length > 3 && state.newEvent.description.length > 3 && state.newEvent.timeStart.length > 3  && state.newEvent.timeEnd.length > 3)) {
-                state.events.push({
-                color: state.newEvent.color,
-                date: state.selectDay,
-                description: state.newEvent.description,
-                invites: [],
-                name: state.newEvent.name,
-                timeEnd: state.newEvent.timeEnd,
-                timeStart: state.newEvent.timeStart
-               })
-
-
-
-
+        clearEvent(state): void  {
                state.newEvent = {
                 date: "",
                 color: randColor(),
                 invites: [],
                 name: "",
                 description: "",
-                timeStart: "",
-                timeEnd: "",
+                timestart: "",
+                timeend: "",
                 nameError: "",
                 descriptionError: "",
                 timeEndError: "",
-                timeStartError: ""
+                timeStartError: "",
+                ownerId: 0
             }
+        },
+
+
+        addInvitesOnEvent(state, action: PayloadAction<UserOther>) {
+            let uniq = true
+
+            state.newEvent.invites.forEach(el => {
+                if (el.id == action.payload.id) {
+                    uniq = false
+                }
+            })
+
+            if (uniq) {
+                alert(`Добавлен ${action.payload.name}`)
+                state.newEvent.invites.push(action.payload)
+            } else {
+                alert(`Уже в списке`)
             }
-            else {
-                alert("error form")
-            }
+        },
+
+
+        setEvents(state, action: PayloadAction<IEvent[]>) {
+            state.events = action.payload
         }
 
     }
 })
 
 
-export const {setVisible, setVisibleYear, setVisibleMonth, setCurrentDay, setEventModalVisible, setCreateEventModalVisible, setHandler, setColorNewEvent, setNameNewEvent, setdDescriptionNewEvent, setStartNewEvent, setEndNewEvent, addEvent } = headerSlice.actions
+export const {clearEvent, addInvitesOnEvent, setEvents, setModalAuth, setVisible, setVisibleYear, setVisibleMonth, setCurrentDay, setEventModalVisible, setCreateEventModalVisible, setHandler, setColorNewEvent, setNameNewEvent, setdDescriptionNewEvent, setStartNewEvent, setEndNewEvent } = headerSlice.actions
 export default headerSlice.reducer

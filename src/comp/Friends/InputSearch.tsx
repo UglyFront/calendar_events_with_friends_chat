@@ -1,4 +1,8 @@
 import styled from "styled-components"
+import {useState} from "react"
+import { useAppDispatch, useAppSelector } from "../../store/store"
+import { actions } from "../../store/asyncActions"
+import { filterFreinds, setSearch } from "../../store/user"
 
 
 
@@ -18,8 +22,28 @@ export const Input = styled.input<IInputSearch>`
 
 const InputSearch: React.FC<IInputSearch> = (props) => {
 
+    const [value, setValue] = useState<string>("")
+    const dispatch = useAppDispatch()
+    const {searchUser, friends} = useAppSelector(state => state.reducer.userReducer)
+
     return (
-        <Input placeholder={props.global ? "Найти нового друга" : "Поиск среди друзей"}/>
+        <Input value={value} 
+        placeholder={props.global ? "Найти нового друга" : "Поиск среди друзей"} 
+        onChange={(e) => {
+            setValue(e.target.value)
+
+            if (props.global) {
+                if (e.target.value.trim()) {
+                    dispatch(actions.searchFriends(e.target.value))
+                } else {
+                    //console.log("ОЧИСТКА")
+                    dispatch(setSearch([]))
+                }
+            } else {
+                dispatch(setSearch([]))
+                dispatch(filterFreinds(e.target.value))
+            }
+        }}/>
     )
 }
 

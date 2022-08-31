@@ -3,12 +3,17 @@ import { Event } from "./Profile"
 
 
 
-const MyEvent = () => {
+interface MyEventCardProps {
+    eventEl: any,
+    my?: boolean
+}
+
+const MyEvent: React.FC<MyEventCardProps> = ({my, eventEl}) => {
     return (
             <Event>
-                <h3>Вечеринка Педро</h3>
-                <span>13/Aug/2022 12:00-22:00</span>
-                <h5>ОписаниеОписаниеОписаниеОписаниеОписаниеОпписаниеОписаниеОписаниеОписаниеОписаниеОписаниеОписаниеОписаниеОписаниеОписаниеОписаниеОписаниеОисаниеОписаниеОписаниеОписание</h5>
+                <h3>{eventEl.name}</h3>
+                <span>{eventEl.date} {eventEl.timestart}-{eventEl.timeend}</span>
+                <h5>{eventEl.description}</h5>
                 <DashOutlined style={{position: "absolute", bottom: 0}}/>
             </Event>
     )

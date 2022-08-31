@@ -3,12 +3,14 @@ import  calendarSlice  from './calendar'
 import { useDispatch, useSelector } from 'react-redux'
 import type { TypedUseSelectorHook } from 'react-redux'
 import  headerSlice  from './eventWithModal'
+import userSlice from "./user"
 
 
 
 const rootReducer = combineReducers({
     calendarReducer: calendarSlice,
     headerReducer: headerSlice,
+    userReducer: userSlice
 })
 
 

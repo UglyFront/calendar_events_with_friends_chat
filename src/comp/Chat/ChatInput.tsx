@@ -45,7 +45,7 @@ const Form = styled.form`
 
 
 
-const ChatInput: React.FC<End>  = ({end}) => {
+const ChatInput: React.FC<End>  = ({end, ws, chatId}) => {
 
     const inp = useRef<any>()
 
@@ -58,12 +58,13 @@ const ChatInput: React.FC<End>  = ({end}) => {
 
                 if (inp.current.value.length >= 1) {
                     end.current.current.scrollIntoView()
+                    ws.send(`${chatId}: ${inp.current.value}`)
                     inp.current.value = ""
                 }
             }}><EditTwoTone /></button>
 
 
-        <button onClick={(e) => {
+        <button onSubmit={(e) => {
                  e.preventDefault();
             }}><AudioTwoTone /></button>
         <input id="file" type="file"  accept="image/png, image/jpeg, ,.mp3, .mp4, .wav, .avi"/><label htmlFor="file"><PictureTwoTone /></label>

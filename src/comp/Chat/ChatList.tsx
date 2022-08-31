@@ -173,6 +173,8 @@ const msg = [
 
 export interface End {
     end: any,
+    ws?: any,
+    chatId?: string | undefined
 }
 const ChatList: React.FC<End>  = (props) => {
     
@@ -199,7 +201,7 @@ const ChatList: React.FC<End>  = (props) => {
     useEffect(() => {
         props.end.current = end
         end.current.scrollIntoView()
-        list.current.addEventListener("scroll",handlerScroll)
+        list.current.addEventListener("scroll", handlerScroll)
 
 
         // return () => {

@@ -30,7 +30,7 @@ const Handler = styled.div`
     background: #CBCAFF;
     position: absolute;
     right: -30px;
-    z-index: 1;
+    z-index: 3;
     color: #fff;
     cursor: pointer;
     display: flex;

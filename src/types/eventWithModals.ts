@@ -1,3 +1,5 @@
+import { statusEnum } from "./user"
+
 export interface HeaderState {
     visible: boolean,
     visibleYear: boolean,
@@ -7,17 +9,28 @@ export interface HeaderState {
     handlerEvent: boolean,
     selectDay: string,
     events: Array<IEvent>,
+    modalAuth: boolean
 
     newEvent: IEventAdd
 }
 
+
+export interface UserOther {
+    id: number,
+    img: string,
+    name: string,
+    status: string,
+    statusText: statusEnum,
+}
+
 export interface IEvent {
     date: string,
-    invites: number[],
+    invites: UserOther[],
     name: string,
+    ownerId: number
     description: string,
-    timeStart: string,
-    timeEnd: string,
+    timestart: string,
+    timeend: string,
     color: string,
 }
 

@@ -5,11 +5,11 @@ import ListFriends from "../../comp/Friends/ListFriends"
 
 
 
-const Friends: React.FC = () => {
+const Friends: React.FC<any> = (props) => {
 
     return (
         <>
-            <StyledH2>My friends</StyledH2>
+            <StyledH2 onClick={() => props.ws.send("кидк френд")}>My friends</StyledH2>
             <FormSearch/>
             <ListFriends/>
         </>

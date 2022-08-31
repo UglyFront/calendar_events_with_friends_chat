@@ -13,16 +13,16 @@ const Messages: React.FC = () => {
             <StyledH2>My chats</StyledH2>
             <Input style={{marginTop: "30px"}} placeholder="Поиск"/>
             <List>
-                <ItemMsg/>
-                <ItemMsg/>
-                <ItemMsg/>
-                <ItemMsg/>
-                <ItemMsg/>
-                <ItemMsg/>
-                <ItemMsg/>
-                <ItemMsg/>
-                <ItemMsg/>
-                <ItemMsg/>
+                <ItemMsg id={String(Math.floor(Math.random()*22222))}/>
+                <ItemMsg id={String(Math.floor(Math.random()*22222))}/>
+                <ItemMsg id={String(Math.floor(Math.random()*22222))}/>
+                <ItemMsg id={String(Math.floor(Math.random()*22222))}/>
+                <ItemMsg id={String(Math.floor(Math.random()*22222))}/>
+                <ItemMsg id={String(Math.floor(Math.random()*22222))}/>
+                <ItemMsg id={String(Math.floor(Math.random()*22222))}/>
+                <ItemMsg id={String(Math.floor(Math.random()*22222))}/>
+                <ItemMsg id={String(Math.floor(Math.random()*22222))}/>
+                <ItemMsg id={String(Math.floor(Math.random()*22222))}/>
             </List>
         </>
     )

@@ -9,7 +9,7 @@ const Friends: React.FC<any> = (props) => {
 
     return (
         <>
-            <StyledH2 onClick={() => props.ws.send("кидк френд")}>My friends</StyledH2>
+            <StyledH2>My friends</StyledH2>
             <FormSearch/>
             <ListFriends/>
         </>

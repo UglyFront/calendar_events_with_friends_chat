@@ -15,9 +15,11 @@ import Messages from './page/messages/Messages';
 import { createGlobalStyle } from 'styled-components';
 import FriendsItem from './comp/Friends/FriendsItem';
 import Chat from './page/chat/Chat';
-import {actions} from "./store/asyncActions"
-import { setLogout, setUser } from './store/user';
+import {actions, URL} from "./store/asyncActions"
+import { pushMsgActiveChat, setLogout, setUser } from './store/user';
 import { statusFriends } from './types/user';
+import { notification } from 'antd';
+import 'antd/dist/antd.css';
 
 
 export interface IStyledHeader {
@@ -39,7 +41,7 @@ const Wrapper = styled.div`
 
 
 const Content = styled.div<IStyledHeader>`
-  max-width: ${({visible}) => visible ? "100vw" : "calc(100vw - 90px)"};
+  // max-width: ${({visible}) => visible ? "100vw" : "calc(100vw - 90px)"};
   width: 100%;
   position: absolute;
   left: ${({visible}) => visible ? "90px" : "0px"};
@@ -261,13 +263,21 @@ const GlobalStyle = createGlobalStyle<Modal>`
   overflow-x: hidden;
   font-family: 'Montserrat', sans-serif;
   overflow: ${({handlerEvent, visibleMonth, visibleYear, eventModalVisible, createEventModalVisible, modalAuth}) => visibleMonth || visibleYear || eventModalVisible || createEventModalVisible || modalAuth || handlerEvent? "hidden" : ""};
-}`
+
+  p, img, div, svg {
+    margin: 0;
+    padding: 0;
+  }
+
+}
+
+`
 
 
 
 function App(): JSX.Element {
 
-  const ws = React.useRef(new WebSocket("ws://localhost:6601/"))
+  const ws = React.useRef(new WebSocket(`ws://localhost:6601/`))
 
   const dispatch = useAppDispatch()
   const auth = useAppSelector(state => state.reducer.userReducer.auth)
@@ -280,7 +290,10 @@ function App(): JSX.Element {
   const modalAuth = useAppSelector(state => state.reducer.headerReducer.modalAuth)
   const user = useAppSelector(state => state.reducer.userReducer.user)
 
+  const friends = useAppSelector(state => state.reducer.userReducer.friends)
+  const events = useAppSelector(state => state.reducer.headerReducer.events)
 
+  const activeChat = useAppSelector(state => state.reducer.userReducer.activeChat)
 
   useEffect(() => {
     let userAuthStorage = window.localStorage.getItem("userAuth")
@@ -289,7 +302,55 @@ function App(): JSX.Element {
       let user = JSON.parse(userAuthStorage)
       dispatch(setUser(user[0]))
     }
+    
   }, [])
+
+
+
+  const key = 'updatable';
+
+  ws.current.onmessage = (msg: any) => {
+    const message = JSON.parse(msg.data)
+
+    console.log(message)
+    if (message.chatId != activeChat) {
+
+      if (message.audio.length > 1) {
+        notification.open({
+          key,
+          message: `${message.user.name}`,
+        description: `Audio message`,
+        })
+      } else {
+        notification.open({
+          key,
+          message: `${message.user.name}`,
+        description: `${message.text}`,
+        })
+      }
+    } else {
+      dispatch(pushMsgActiveChat(message))
+    }
+  }
+
+
+
+
+  friends.forEach((el: any) => {
+    ws.current.send(JSON.stringify({
+      type: "connection",
+      id: String(el.id),
+    }))
+  })
+
+  events.forEach((el: any) => {
+    ws.current.send(JSON.stringify({
+      type: "connection",
+      id: String(el.id + "event"),
+    }))
+  })
+
+
 
 
   useEffect(() => {

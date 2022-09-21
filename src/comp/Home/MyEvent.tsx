@@ -10,6 +10,7 @@ interface MyEventCardProps {
 
 const MyEvent: React.FC<MyEventCardProps> = ({my, eventEl}) => {
     return (
+        
             <Event>
                 <h3>{eventEl.name}</h3>
                 <span>{eventEl.date} {eventEl.timestart}-{eventEl.timeend}</span>

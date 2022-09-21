@@ -20,6 +20,8 @@ export interface IUserState {
     friends: any,
     searchUser: Array<Friends>,
     filterFriends: Array<Friends>,
+    activeChat: string,
+    msgActiveChat: Array<any>
 }
 
 export enum statusFriends {

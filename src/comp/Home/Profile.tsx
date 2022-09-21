@@ -3,8 +3,10 @@ import React, { useEffect } from "react"
 import { StyledH3 } from "../../App"
 import ListEvent from "./ListEvent"
 import FriendsItem from "../Friends/FriendsItem"
-import { useAppSelector } from "../../store/store"
+import { useAppDispatch, useAppSelector } from "../../store/store"
 import { statusFriends } from "../../types/user"
+import { URL } from "../../store/asyncActions"
+import { updateImg } from "../../store/user"
 
 
 export interface ImgProps {
@@ -123,8 +125,8 @@ transition: .5s;
     position: absolute;
     top: 0;
     left: 0;
-    width: 20px;
-    height: 20px;
+    width: 25px;
+    height: 25px;
     background: red;
     color: #fff;
     text-align: center;
@@ -137,14 +139,50 @@ const Profile: React.FC = () => {
     const user = useAppSelector(state => state.reducer.userReducer.user)
     const friends = useAppSelector(state => state.reducer.userReducer.friends)
 
+    const dispatch = useAppDispatch()
+
+    function sendAvatar(e: any) {
+        let check = window.confirm("Меняем аватар?")
+        if(check) {
+            const data = new FormData()
+
+            data.append("id", String(user.id))
+            data.append("img", e.target.files[0])
+
+
+            fetch(`${URL}/user/img`, {
+                method: "POST",
+                body: data
+            }).then(res =>  res.json())
+            .then(data => {
+            dispatch(updateImg(data.img))
+            setTimeout(() => {
+                localStorage.removeItem("userAuth")
+                localStorage.setItem("userAuth", JSON.stringify([{...user, img: data.img}]))
+            }, 0)
+            })
+
+        
+        } 
+    }
+
+    console.log(user)
+
     return (
         <>
         <ProfileAll>
         <WrapperProfile>
-            <ProfileImg img = "https://www.meme-arsenal.com/memes/566c9cf04de6c790122fc835ae032c23.jpg"/>
+            <input id="avatar" onChange = {(e) => sendAvatar(e)} type="file" style={{display: "none"}} accept=".png, .jpg"/>
+           <label htmlFor="avatar">
+           {user?.img?.length? 
+                    <ProfileImg img = {`${URL}/${user.img}`}/>
+                    :
+                    <ProfileImg img = "https://brilliant24.ru/files/cat/bg_template_01.png"/>
+                    }
+           </label>
             <div className="wrapper_text">
                 <h2>{user.name || 341}</h2>
-                <h3>{user.statusText || "Empty"}</h3>
+                {/* <h3>{user.statusText || "Empty"}</h3> */}
             </div>
         </WrapperProfile>
         <div className="friends" onClick={() => setSidebar(prev => !prev)}>Друзья</div>

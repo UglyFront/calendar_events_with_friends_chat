@@ -37,7 +37,7 @@ const SelectYear = styled.div`
 const StyledDate = styled.p`
     color: #817FEF;
     font-size: 28px;
-    overflow: hidden
+    overflow: hidden;
 
 `
 
@@ -52,15 +52,15 @@ const SelectDate: React.FC = () => {
     return (
         <WrapperDate>
             <SelectMonth>
-                <UpOutlined style={{cursor: "pointer", color: "#808080"}} onClick={() => dispatch(changeMonth({plus: true}))}/>
+                <UpOutlined style={{cursor: "pointer", height: 15, color: "#808080"}} onClick={() => dispatch(changeMonth({plus: true}))}/>
                 <StyledDate  onClick={() => dispatch(setVisibleMonth())}>{month}</StyledDate>
-                <DownOutlined style={{cursor: "pointer", color: "#808080"}} onClick={() => dispatch(changeMonth({plus: false}))}/>
+                <DownOutlined style={{cursor: "pointer", height: 15, color: "#808080"}} onClick={() => dispatch(changeMonth({plus: false}))}/>
             </SelectMonth>
 
             <SelectYear>
-                <UpOutlined style={{cursor: "pointer", color: "#808080"}} onClick={() => dispatch(incrementYear())}/>
+                <UpOutlined style={{cursor: "pointer", height: 15, color: "#808080"}} onClick={() => dispatch(incrementYear())}/>
                 <StyledDate onClick={() => dispatch(setVisibleYear())}>{year}</StyledDate>
-                <DownOutlined style={{cursor: "pointer", color: "#808080"}} onClick={() => dispatch(decrementYear())}/> 
+                <DownOutlined style={{cursor: "pointer", height: 15, color: "#808080"}} onClick={() => dispatch(decrementYear())}/> 
             </SelectYear>
         </WrapperDate>
     )

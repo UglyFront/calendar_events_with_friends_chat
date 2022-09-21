@@ -1,6 +1,6 @@
 import { clearEvent, setEvents, setModalAuth } from "./eventWithModal"
 import { AppDispatch } from "./store"
-import { setFriends, setSearch, setUser } from "./user"
+import { setFriends, setMessageActiveChat, setSearch, setUser } from "./user"
 
 export const URL = "http://localhost:6600"
 
@@ -117,7 +117,6 @@ class asyncActions {
             fetch(`${URL}/friends/?s=${value}`)
             .then(res => res.json())
             .then(data => {
-                console.log(data, "search")
                 dispatch(setSearch(data))
             })
 
@@ -194,6 +193,15 @@ class asyncActions {
 
 
 
+    getMessageChat(id: string) {
+        return (dispatch: AppDispatch) => {
+        fetch(`${URL}/msg/${id}`)
+        .then(res => res.json())
+        .then(data => {
+            dispatch(setMessageActiveChat(data))
+        })
+        }
+    }
 }
 
 

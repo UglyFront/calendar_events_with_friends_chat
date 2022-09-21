@@ -9,8 +9,7 @@ import { IEvent } from "../../types/eventWithModals"
 
 //width 120% on phone nice look! margin-left: -40px;
 const Grid = styled.div`
-max-width: 1200px
-;
+max-width: 1200px;
 width: 100%; 
 height: 100%;
   display: grid; 
@@ -27,7 +26,7 @@ height: 100%;
 
         .events {
             width: 100%;
-            height: 70px;
+            height: 60px;
             display: flex;
             border: none;
             flex-wrap: wrap;

@@ -43,7 +43,7 @@ const ListFriends: React.FC = (props) => {
                     })
                     :
                     !searchUser.length && filterFriends.length?
-                    filterFriends.map((el: any) => <FriendsItem my={true} profile={el}/>)
+                    filterFriends.map((el: any) => <FriendsItem my={true} profile={el.friend}/>)
                     :
                     <p>ШО</p>
                 }

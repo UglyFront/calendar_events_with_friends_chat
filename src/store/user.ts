@@ -18,7 +18,11 @@ const initialState: IUserState = {
     },
     friends: [],
     searchUser: [],
-    filterFriends: []
+    filterFriends: [],
+    activeChat: "",
+    msgActiveChat: [
+      
+    ]
 }
 
 
@@ -56,18 +60,39 @@ const userSlice = createSlice({
         },
 
         filterFreinds(state, action: PayloadAction<string>) {
-            state.filterFriends.forEach(el => {
-                if (el.name?.includes(action.payload)) {
+            state.searchUser = []
+            state.friends.forEach((el: any) => {
+                console.log(el.name)
+                if (el.friend?.name?.includes(action.payload) && el.status == "ACCEPT") {
                     state.filterFriends.push(el)
                 }
             })
 
             console.log(state.filterFriends.length)
+        },
+
+
+        setActiveChat(state, action:PayloadAction<string>) {
+            state.activeChat = action.payload
+        },
+
+        setMessageActiveChat(state, action:PayloadAction<Array<any>>) {
+            state.msgActiveChat = action.payload
+        },
+
+
+        pushMsgActiveChat(state, action:PayloadAction<any>) {
+            state.msgActiveChat.push(action.payload)
+            console.log(action.payload)
+        },
+
+        updateImg(state, action:PayloadAction<string>) {
+            state.user.img = action.payload
         }
     }
 })
 
 
 
-export const {filterFreinds, setSearch, setUser, setLogout, setFriends} =  userSlice.actions
+export const {updateImg, setMessageActiveChat, pushMsgActiveChat, setActiveChat, filterFreinds, setSearch, setUser, setLogout, setFriends} =  userSlice.actions
 export default userSlice.reducer

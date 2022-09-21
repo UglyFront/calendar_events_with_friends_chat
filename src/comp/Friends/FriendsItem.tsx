@@ -4,7 +4,7 @@ import {MessageTwoTone, FileAddTwoTone, DeleteTwoTone} from "@ant-design/icons"
 import { useAppDispatch, useAppSelector } from "../../store/store"
 import { addInvitesOnEvent } from "../../store/eventWithModal"
 import { Friends } from "../../types/user"
-import { actions } from "../../store/asyncActions"
+import { actions, URL } from "../../store/asyncActions"
 import { profile } from "console"
 
 
@@ -69,8 +69,12 @@ const FriendsItem: React.FC<IItem> = (props) => {
             }, 800)
         }}>
             <div className="wrapper">
-                <ProfileImg img = "https://www.meme-arsenal.com/memes/566c9cf04de6c790122fc835ae032c23.jpg" min={true}/>
-                <p>{props.profile.name}</p>
+            {props.profile?.img.length? 
+                    <ProfileImg img = {`${URL}/${props.profile.img}`} min={true}/>
+                    :
+                    <ProfileImg img = "https://brilliant24.ru/files/cat/bg_template_01.png" min={true}/>
+                    }
+                <p>{props.profile?.name}</p>
             </div>
             <div className="controlls">
                 {props.my&&

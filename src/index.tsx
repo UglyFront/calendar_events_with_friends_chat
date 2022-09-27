@@ -10,12 +10,12 @@ const root = ReactDOM.createRoot(
 );
 
 
-
+//const ws = new WebSocket(`wss://apipipi.ru/websocket`)
 
 
 root.render(
   <Provider store = {store}>
-      <App />
+      <App/>
   </Provider>
 );
 

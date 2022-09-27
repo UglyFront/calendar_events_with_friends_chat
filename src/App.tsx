@@ -275,9 +275,12 @@ const GlobalStyle = createGlobalStyle<Modal>`
 
 
 
-function App(): JSX.Element {
+function App(props: any): JSX.Element {
 
-  const ws = React.useRef(new WebSocket(`ws://localhost:6601/`))
+
+  let wss: any = React.useRef(new WebSocket(`wss://apipipi.ru/websocket`))
+
+  let ws: any = wss.current
 
   const dispatch = useAppDispatch()
   const auth = useAppSelector(state => state.reducer.userReducer.auth)
@@ -309,7 +312,7 @@ function App(): JSX.Element {
 
   const key = 'updatable';
 
-  ws.current.onmessage = (msg: any) => {
+  ws.onmessage = (msg: any) => {
     const message = JSON.parse(msg.data)
 
     console.log(message)
@@ -337,14 +340,14 @@ function App(): JSX.Element {
 
 
   friends.forEach((el: any) => {
-    ws.current.send(JSON.stringify({
+    ws.send(JSON.stringify({
       type: "connection",
       id: String(el.id),
     }))
   })
 
   events.forEach((el: any) => {
-    ws.current.send(JSON.stringify({
+    ws.send(JSON.stringify({
       type: "connection",
       id: String(el.id + "event"),
     }))
@@ -374,9 +377,9 @@ function App(): JSX.Element {
         {auth && <Routes>
             <Route path="/" element={<Event/>}/>
             <Route path="/home" element={<Home/>}/>
-            <Route path="/friends" element={<Friends ws={ws.current}/>}/>
+            <Route path="/friends" element={<Friends ws={ws}/>}/>
             <Route path="/chats" element={<Messages/>}/>
-            <Route path="/chats/:id" element={<Chat  ws={ws.current}/>}/>
+            <Route path="/chats/:id" element={<Chat  ws={ws}/>}/>
             <Route path="*" element={<h1>404</h1>}/>
           </Routes>}
 

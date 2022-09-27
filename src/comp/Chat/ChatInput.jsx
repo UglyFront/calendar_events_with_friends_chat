@@ -4,7 +4,6 @@ import { End } from "./ChatList";
 import {EditTwoTone, AudioTwoTone, PictureTwoTone, RightCircleTwoTone} from "@ant-design/icons"
 import { useRef } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/store";
-import { Alert } from "antd";
 import {useState} from "react"
 import { URL } from "../../store/asyncActions";
 
@@ -138,8 +137,6 @@ const ChatInput  = ({end, ws, chatId, file, setFile}) => {
             if (stopButtonRef && stopButtonRef.current)
                 stopButtonRef?.current?.addEventListener('click', function onStopClick() {
                     mediaRecorder.stop();
-
-
                     this.removeEventListener('click', onStopClick)
                 });
 

@@ -2,9 +2,9 @@ import { clearEvent, setEvents, setModalAuth } from "./eventWithModal"
 import { AppDispatch } from "./store"
 import { setFriends, setMessageActiveChat, setSearch, setUser } from "./user"
 
-//export const URL = "https://apipipi.ru"
+export const URL = "https://apipipi.ru"
 
-export const URL = "http://localhost:6600"
+//export const URL = "http://localhost:6600"
 
 
 

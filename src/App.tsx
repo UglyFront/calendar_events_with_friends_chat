@@ -329,7 +329,7 @@ function App(props: any): JSX.Element {
   }, [friends, events])
 
 
-
+  const nav = useNavigate()
   const key = 'updatable';
 
   ws.onmessage = (msg: any) => {
@@ -351,7 +351,7 @@ function App(props: any): JSX.Element {
           message: `${message.user.name}`,
         description: `${message.text}`,
         onClick() {
-          window.location.href = `/chats/${message.chatId}`
+          nav(`/chats/${message.chatId}`)
         },
         style: {
           cursor: "pointer"
@@ -393,7 +393,7 @@ function App(props: any): JSX.Element {
 
 
   return (
-    <BrowserRouter>
+    <>
     <Modals/>
     <GlobalStyle handlerEvent={handlerEvent} createEventModalVisible={createEventModalVisible} eventModalVisible={eventModalVisible} visibleMonth={visibleMonth} visibleYear={visibleYear} modalAuth={modalAuth}/>
     <div className="App">
@@ -423,7 +423,7 @@ function App(props: any): JSX.Element {
         </Content>
       </Wrapper>
     </div>
-    </BrowserRouter>
+    </>
   );
 }
 

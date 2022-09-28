@@ -4,22 +4,25 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
+import {BrowserRouter} from "react-router-dom"
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
 
-//const ws = new WebSocket(`wss://apipipi.ru/websocket`)
+const ws = new WebSocket(`wss://apipipi.ru/websocket`)
 
 
-const ws = new WebSocket(`ws://localhost:6601`)
+//const ws = new WebSocket(`ws://localhost:6601`)
 
 
 root.render(
+  <BrowserRouter>
   <Provider store = {store}>
       <App ws = {ws}/>
   </Provider>
+  </BrowserRouter>
 );
 
 // If you want to start measuring performance in your app, pass a function

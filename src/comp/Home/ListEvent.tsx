@@ -23,13 +23,13 @@ const ListEvent: React.FC<IPropsListEvent> = ({invites}) => {
         <WrapperEvent style={visibleMyEvent ? {height: "100%",  transform: 'translateX(0%)'} : {height: "0px",  transform: 'translateX(-100%)'}}>
             {events.map((el: any) => {
                 if (el.ownerId == user.id && !invites) {
-                    return <MyEvent eventEl={el}/>
+                    return <MyEvent key = {el.id} eventEl={el}/>
                 }
             })}
 
             {events.map((el: any) => {
                 if (el.ownerId !== user.id && invites) {
-                    return <MyEvent eventEl={el}/>
+                    return <MyEvent  key = {el.id} eventEl={el}/>
                 }
             })}     
         </WrapperEvent>

@@ -1,6 +1,8 @@
+import { useNavigate } from "react-router-dom"
 import styled from "styled-components"
 import Friends from "../../page/friends/Friends"
-import { URL } from "../../store/asyncActions"
+import { actions, URL } from "../../store/asyncActions"
+import { useAppSelector, useAppDispatch } from "../../store/store"
 
 const AboutChat = styled.div`
 
@@ -50,6 +52,12 @@ interface IInfoChat {
 
 const InfoChat: React.FC<IInfoChat>  = ({friend, event}) => {
 
+
+    const user = useAppSelector(state => state.reducer.userReducer.user)
+
+    const dispatch = useAppDispatch()
+    const nav = useNavigate()
+
     return(
         <AboutChat>
             {
@@ -73,7 +81,36 @@ const InfoChat: React.FC<IInfoChat>  = ({friend, event}) => {
                </>
                 }
             </div>
-            <p className="leave">Покинуть чат</p>
+            {event &&
+                <>
+                {user.id == event.ownerId?
+                <p className="leave" onClick={() => {
+                    let check = window.confirm("Чат и событие будут полностью удалены ДЛЯ ВСЕХ УЧАСТНИКОВ! Вы согласны?")
+
+                    if (check) {
+                        const body = {
+                            eventId: event.id
+                        }
+                        dispatch(actions.deleteEvent(body))
+                        nav("/chats")
+                    }
+                }}>Отменить событие</p>
+            :
+                <p className="leave" onClick={() => {
+                    let check = window.confirm("Чат и событие будут полностью удалены! Вы согласны?")
+
+                    if (check) {
+                        const body = {
+                            eventId: event.id,
+                            userId: user.id
+                        }
+                        dispatch(actions.leaveEvent(body))
+                        nav("/chats")
+                    }
+                }}>Покинуть чат</p>
+            }
+                </>
+            }
         </AboutChat>
     )
 }

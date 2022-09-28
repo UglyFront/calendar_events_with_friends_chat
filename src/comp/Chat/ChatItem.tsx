@@ -37,7 +37,7 @@ const Item = styled.div<MyMsg>`
         span {
             position: absolute;
             bottom: 0;
-            right: 0
+            right: 10px
         }
     }
 `
@@ -47,7 +47,7 @@ const Item = styled.div<MyMsg>`
 const ChatItem: React.FC<MyMsg>  = (props) => {
     if (props.audio?.trim()) {
         return(
-            <Item my={props.my}>
+            <Item my={props.my} onClick={() => console.log(props.userSend)}>
                 <div style={{background: "#fff"}} className="msg">
                     <audio style={{width: "250px"}} src={URL+`/${props.audio}`} controls></audio>
                 </div>

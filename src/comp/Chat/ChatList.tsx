@@ -80,9 +80,9 @@ const ChatList: React.FC<End>  = (props) => {
         list.current.addEventListener("scroll", handlerScroll)
 
 
-        // return () => {
-        //     list.current.addEventListener("scroll",handlerScroll)
-        // }
+        return () => {
+            list.current?.removeEventListener("scroll", handlerScroll)
+        }
     }, [msg])
 
     return(
@@ -101,7 +101,7 @@ const ChatList: React.FC<End>  = (props) => {
             })
         }}
         >
-            {msg.map(el => <ChatItem time={el.time} src={el.src} typeFile={el.typeFile} my={el.user.id == user.id? true:false} text={el.text} audio={el.audio} userSend={el.user}/>)}
+            {msg.map(el => <ChatItem  key = {el.id} time={el.time} src={el.src} typeFile={el.typeFile} my={el.user.id == user.id? true:false} text={el.text} audio={el.audio} userSend={el.user}/>)}
             <div className="end" ref={end}></div>
             <div className="arrow" onClick={() => end.current.scrollIntoView()} style={arrow ? {transform: "translateX(0%) rotate(90deg)"}:{transform: "translateX(100%) rotate(90deg)"}}>{">"}</div>
         </List>

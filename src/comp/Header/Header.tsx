@@ -59,10 +59,10 @@ const Header: React.FC = () => {
             <Handler onClick={() => dispatch(setVisible())}>
                 <span>{visibleHeader ? <CloseOutlined /> : <MenuOutlined />}</span>
             </Handler>
-            <Link to="/home"><HomeTwoTone style={{fontSize: 40, marginBottom: "25vh", marginTop: "20px", marginLeft: "20px"}}/></Link>
-            <Link to="/"><CalendarTwoTone style={{fontSize: 40, marginBottom: "10px", marginTop: "20px", marginLeft: "20px"}}/></Link>
-            <Link to="/friends"><SmileTwoTone style={{fontSize: 40, marginBottom: "10px", marginTop: "20px", marginLeft: "20px"}}/></Link>
-            <Link to="/chats"><MessageTwoTone style={{fontSize: 40, marginBottom: "10px", marginTop: "20px", marginLeft: "20px"}}/></Link>
+            <Link to="/home"><HomeTwoTone onClick={() => dispatch(setVisible())} style={{fontSize: 40, marginBottom: "25vh", marginTop: "20px", marginLeft: "20px"}}/></Link>
+            <Link to="/"><CalendarTwoTone onClick={() => dispatch(setVisible())} style={{fontSize: 40, marginBottom: "10px", marginTop: "20px", marginLeft: "20px"}}/></Link>
+            <Link to="/friends"><SmileTwoTone onClick={() => dispatch(setVisible())} style={{fontSize: 40, marginBottom: "10px", marginTop: "20px", marginLeft: "20px"}}/></Link>
+            <Link to="/chats"><MessageTwoTone onClick={() => dispatch(setVisible())} style={{fontSize: 40, marginBottom: "10px", marginTop: "20px", marginLeft: "20px"}}/></Link>
         </StyledHeader>
     )
 }

@@ -23,13 +23,20 @@ height: 100%;
         height: 100px;
         border: 1px solid #5790FF;
         font-size: 22px;
+        translate: .2s;
+        cursor: pointer;
+        
 
+        &:hover {
+            opacity: 0.5;
+        }
         .events {
             width: 100%;
             height: 60px;
             display: flex;
             border: none;
             flex-wrap: wrap;
+
 
             .event {
                 width: 15px;

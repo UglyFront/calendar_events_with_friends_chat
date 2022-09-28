@@ -14,7 +14,7 @@ const randColor = (): string => {
 
 
 const state: HeaderState = {
-    visible: true,
+    visible: false,
     visibleYear: false,
     visibleMonth: false,
     createEventModalVisible: false,
@@ -93,14 +93,13 @@ export const headerSlice = createSlice({
             state.createEventModalVisible = !state.createEventModalVisible
         },
 
-
         setColorNewEvent(state, action:PayloadAction<string>): void  {
             state.newEvent.color = action.payload
             console.log(state.newEvent.color)
         },
 
         setNameNewEvent(state, action:PayloadAction<string>): void  {
-            if (state.newEvent.name.length < 3) {
+            if (action.payload.length < 3) {
                 state.newEvent.nameError = "Больше 3х символов"
             }
             else {
@@ -111,7 +110,7 @@ export const headerSlice = createSlice({
         },
 
         setdDescriptionNewEvent(state, action:PayloadAction<string>): void  {
-            if (state.newEvent.description.length < 3) {
+            if (action.payload.length < 3) {
                 state.newEvent.descriptionError = "Больше 3х символов"
             }
             else {
@@ -122,7 +121,7 @@ export const headerSlice = createSlice({
         },
 
         setStartNewEvent(state, action:PayloadAction<string>): void  {
-            if (state.newEvent.timestart.length < 3) {
+            if (action.payload.length < 3) {
                 state.newEvent.timeStartError = "Больше 3х символов"
             }
             else {
@@ -133,7 +132,7 @@ export const headerSlice = createSlice({
         },
 
         setEndNewEvent(state, action:PayloadAction<string>): void  {
-            if (state.newEvent.timeend.length < 3) {
+            if (action.payload.length < 3) {
                 state.newEvent.timeEndError = "Больше 3х символов"
             }
             else {
@@ -171,7 +170,6 @@ export const headerSlice = createSlice({
             })
 
             if (uniq) {
-                alert(`Добавлен ${action.payload.name}`)
                 state.newEvent.invites.push(action.payload)
             } else {
                 alert(`Уже в списке`)
@@ -181,11 +179,16 @@ export const headerSlice = createSlice({
 
         setEvents(state, action: PayloadAction<IEvent[]>) {
             state.events = action.payload
+        },
+
+
+        deleteInviteOnEvent(state, action: PayloadAction<number>) {
+           state.newEvent.invites = state.newEvent.invites.filter(el => el.id !== action.payload)
         }
 
     }
 })
 
 
-export const {clearEvent, addInvitesOnEvent, setEvents, setModalAuth, setVisible, setVisibleYear, setVisibleMonth, setCurrentDay, setEventModalVisible, setCreateEventModalVisible, setHandler, setColorNewEvent, setNameNewEvent, setdDescriptionNewEvent, setStartNewEvent, setEndNewEvent } = headerSlice.actions
+export const {deleteInviteOnEvent, clearEvent, addInvitesOnEvent, setEvents, setModalAuth, setVisible, setVisibleYear, setVisibleMonth, setCurrentDay, setEventModalVisible, setCreateEventModalVisible, setHandler, setColorNewEvent, setNameNewEvent, setdDescriptionNewEvent, setStartNewEvent, setEndNewEvent } = headerSlice.actions
 export default headerSlice.reducer

@@ -5,7 +5,9 @@ import { useAppDispatch, useAppSelector } from "../../store/store"
 import { addInvitesOnEvent } from "../../store/eventWithModal"
 import { Friends } from "../../types/user"
 import { actions, URL } from "../../store/asyncActions"
-import { profile } from "console"
+import { notification } from "antd"
+import { useNavigate } from "react-router-dom"
+import { UserOther } from "../../types/eventWithModals"
 
 
 
@@ -58,11 +60,19 @@ const FriendsItem: React.FC<IItem> = (props) => {
 
 
     const user = useAppSelector(state => state.reducer.userReducer.user)
+    const friends = useAppSelector(state => state.reducer.userReducer.friends)
+
+
+    const nav = useNavigate()
 
     return (
         <Item onClick={() => {
             if (props.addEvent) {
                 dispatch(addInvitesOnEvent(props.profile))
+                notification.success({
+                    placement: 'bottomLeft',
+                    message: `${props.profile.name} приглашен!`
+                 })
             }
             setTimeout(() => {
                 dispatch(actions.getFriends(user.id))
@@ -77,16 +87,35 @@ const FriendsItem: React.FC<IItem> = (props) => {
                 <p>{props.profile?.name}</p>
             </div>
             <div className="controlls">
-                {props.my&&
-                <>   <MessageTwoTone style={{cursor: "pointer", fontSize: "22px"}}/>
-                <DeleteTwoTone onClick={() => {
-                    alert(2)
-                        dispatch(actions.deleteFriend({
+                {props.my &&
+                <>   
+                <MessageTwoTone style={{cursor: "pointer", fontSize: "22px"}} onClick={(e) => {
+                    e.stopPropagation()
+                    friends.forEach((el: any) => {
+                        if (el.friend.id == props.profile.id) {
+                            nav(`/chats/${el.id}`)
+                        }
+                    })
+                }}/>
+                {!props.addEvent && 
+                <DeleteTwoTone onClick={async() => {
+                        await dispatch(actions.deleteFriend({
                             sender: user.id,
                             reciver: props.profile.id
                         }))
+
+                        notification.success({
+                            placement: 'bottomLeft',
+                            message: 'Удален друг'
+                         })
+
+                         setTimeout(() => {
+                            dispatch(actions.getFriends(user.id))
+                        }, 800)
                
-                    }} style={{cursor: "pointer", fontSize: "22px"}}/></>
+                    }} style={{cursor: "pointer", fontSize: "22px"}}/>
+                }
+                    </>
                 }
 
                 {props.send &&       <>  <FileAddTwoTone onClick={() => {

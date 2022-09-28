@@ -3,9 +3,9 @@ import { incrementYear, decrementYear, changeMonth, setYear, upRangeYear, downRa
 import Header from './comp/Header/Header';
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useNavigate} from 'react-router-dom';
 import Event from './page/event/Event';
-import { setEventModalVisible, setVisibleMonth, setVisibleYear, setHandler, setCreateEventModalVisible, setColorNewEvent, setNameNewEvent, setdDescriptionNewEvent, setStartNewEvent, setEndNewEvent, setModalAuth } from './store/eventWithModal';
+import { setEventModalVisible, setVisibleMonth, setVisibleYear, setHandler, setCreateEventModalVisible, setColorNewEvent, setNameNewEvent, setdDescriptionNewEvent, setStartNewEvent, setEndNewEvent, setModalAuth, setVisible, deleteInviteOnEvent } from './store/eventWithModal';
 import {UpOutlined, DownOutlined} from "@ant-design/icons"
 import { months } from './model/calendar';
 import { IEvent } from './types/eventWithModals';
@@ -20,6 +20,8 @@ import { pushMsgActiveChat, setLogout, setUser } from './store/user';
 import { statusFriends } from './types/user';
 import { notification } from 'antd';
 import 'antd/dist/antd.css';
+
+
 
 
 export interface IStyledHeader {
@@ -278,9 +280,14 @@ const GlobalStyle = createGlobalStyle<Modal>`
 function App(props: any): JSX.Element {
 
 
-  let wss: any = React.useRef(new WebSocket(`wss://apipipi.ru/websocket`))
+  //let wss: any = React.useRef(new WebSocket(`wss://apipipi.ru/websocket`))
 
-  let ws: any = wss.current
+  //let wss: any = React.useRef(new WebSocket(`ws://localhost:6601`))
+
+
+  //let ws: any = wss.current
+
+  let ws = props.ws
 
   const dispatch = useAppDispatch()
   const auth = useAppSelector(state => state.reducer.userReducer.auth)
@@ -301,12 +308,25 @@ function App(props: any): JSX.Element {
   useEffect(() => {
     let userAuthStorage = window.localStorage.getItem("userAuth")
     
-    if (userAuthStorage) {
-      let user = JSON.parse(userAuthStorage)
-      dispatch(setUser(user[0]))
+    if (userAuthStorage && !auth) {
+      let userStorage = JSON.parse(userAuthStorage)
+      dispatch(setUser(userStorage[0]))
     }
+
+      let x = setInterval(() => {
+        console.log(user)
+        dispatch(actions.getFriends(user.id))
+  
+        dispatch(actions.getEvents(user.id))
+      }, 5000)
+  
+  
+      return () => {
+        clearInterval(x)
+      }
+  
     
-  }, [])
+  }, [friends, events])
 
 
 
@@ -314,6 +334,7 @@ function App(props: any): JSX.Element {
 
   ws.onmessage = (msg: any) => {
     const message = JSON.parse(msg.data)
+
 
     console.log(message)
     if (message.chatId != activeChat) {
@@ -329,6 +350,12 @@ function App(props: any): JSX.Element {
           key,
           message: `${message.user.name}`,
         description: `${message.text}`,
+        onClick() {
+          window.location.href = `/chats/${message.chatId}`
+        },
+        style: {
+          cursor: "pointer"
+        }
         })
       }
     } else {
@@ -338,21 +365,20 @@ function App(props: any): JSX.Element {
 
 
 
+    if (ws.readyState == 1) {
+      const ID: Array<any> = []
+      friends.forEach((el: any) => {
+        ID.push(el.id + "")
+      })
 
-  friends.forEach((el: any) => {
-    ws.send(JSON.stringify({
-      type: "connection",
-      id: String(el.id),
-    }))
-  })
-
-  events.forEach((el: any) => {
-    ws.send(JSON.stringify({
-      type: "connection",
-      id: String(el.id + "event"),
-    }))
-  })
-
+      events.forEach((el: any) => {
+        ID.push(el.id + "event")
+      })
+        ws.send(JSON.stringify({
+          type: "connection",
+          id: ID,
+        }))
+    }
 
 
 
@@ -409,6 +435,51 @@ function App(props: any): JSX.Element {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const Modals = React.memo(() => {
   const dispatch = useAppDispatch()
 
@@ -453,6 +524,10 @@ const Modals = React.memo(() => {
 
 
   const [reg, setREG] = React.useState<boolean>(true)
+  const nav = useNavigate() 
+
+
+
   return (
     <>
     {modalAuth && <BlockedZone style={modalAuth ?  {opacity: 1, zIndex: 100, cursor: "pointer"} : {opacity: 0, zIndex: -100}} onClick={() => dispatch(setModalAuth())}>
@@ -566,7 +641,11 @@ dispatch(actions.login({
 
 
         <section>
-          {invitesOnEvent.map((el,i) => <p style={{width: "100px"}}>{i+1}. {el.name}<span style={{cursor: "pointer"}}>Удалить</span></p>
+          {invitesOnEvent.map((el,i) => <p key={el.id} style={{width: "100px"}}>{i+1}. {el.name}
+            <span style={{cursor: "pointer"}} onClick={() => {
+              dispatch(deleteInviteOnEvent(el.id))
+            }}>Удалить</span>
+          </p>
           )}
         </section>
 
@@ -581,12 +660,12 @@ dispatch(actions.login({
           setNameBlur(false)
           setDescBlur(false)
           setEndBlur(false)
-          setStartBlur(false) // исправить сет фалс
+          setStartBlur(false)
           dispatch(setCreateEventModalVisible())
           setTimeout(() => {
              dispatch(actions.getFriends(user.id))
              dispatch(actions.getEvents(user.id))
-          }, 800) // костыль))
+          }, 800) 
         }}>Создать событие</button>
       </AddEventModal>
 
@@ -622,7 +701,10 @@ dispatch(actions.login({
               }
             })}
           </section>
-          <button>В чат!</button>
+          <button onClick={() => {
+            dispatch(setEventModalVisible())
+            nav(`/chats/${el.id}event`)
+          }}>В чат!</button>
           {el.ownerId == user.id ?
           <button style={{background: "red", marginTop: "20px"}} 
           onClick={async () => {

@@ -32,9 +32,9 @@ const ItemMsg: React.FC<IItem> = (props) => {
                     <ProfileImg img = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqp8miKPILJr5qyOaPJ3AK9e12km9h1UZqDA&usqp=CAU" min={true}/>
                     <p>{props.event.name}</p>
                 </div>
-                <div className="controlls" onClick={(e) => e.stopPropagation()}>
+                {/* <div className="controlls" onClick={(e) => e.stopPropagation()}>
                     <DeleteTwoTone style={{cursor: "pointer", fontSize: "22px"}}/>
-                </div>
+                </div> */}
             </Item>
         )
     } else {
@@ -50,9 +50,9 @@ const ItemMsg: React.FC<IItem> = (props) => {
                     }
                     <p>{props.profile?.name}</p>
                 </div>
-                <div className="controlls" onClick={(e) => e.stopPropagation()}>
+                {/* <div className="controlls" onClick={(e) => e.stopPropagation()}>
                     <DeleteTwoTone style={{cursor: "pointer", fontSize: "22px"}}/>
-                </div>
+                </div> */}
             </Item>
         )
     }

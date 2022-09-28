@@ -36,7 +36,6 @@ const InputSearch: React.FC<IInputSearch> = (props) => {
                 if (e.target.value.trim()) {
                     dispatch(actions.searchFriends(e.target.value))
                 } else {
-                    //console.log("ОЧИСТКА")
                     dispatch(setSearch([]))
                 }
             } else {

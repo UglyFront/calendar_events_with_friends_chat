@@ -175,9 +175,9 @@ const Profile: React.FC = () => {
             <input id="avatar" onChange = {(e) => sendAvatar(e)} type="file" style={{display: "none"}} accept=".png, .jpg"/>
            <label htmlFor="avatar">
            {user?.img?.length? 
-                    <ProfileImg img = {`${URL}/${user.img}`}/>
+                    <ProfileImg img = {`${URL}/${user.img}`} style = {{cursor: "pointer"}}/>
                     :
-                    <ProfileImg img = "https://brilliant24.ru/files/cat/bg_template_01.png"/>
+                    <ProfileImg img = "https://brilliant24.ru/files/cat/bg_template_01.png" style = {{cursor: "pointer"}}/>
                     }
            </label>
             <div className="wrapper_text">

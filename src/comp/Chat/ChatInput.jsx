@@ -1,4 +1,3 @@
-
 import styled from "styled-components"
 import { End } from "./ChatList";
 import {EditTwoTone, AudioTwoTone, PictureTwoTone, RightCircleTwoTone} from "@ant-design/icons"
@@ -11,37 +10,31 @@ import { URL } from "../../store/asyncActions";
 
 
 const Form = styled.form`
-    width: calc(98% - 230px);
+    width: 100%;
     height: 45px;
-
     input {
         width: 70%;
         height: 40px;
         border: 0px;
         border-bottom: 1px solid #a1a1a1;
         outline: none;
-
         &:focus {
             border-bottom: 1px solid cyan;
         }
     }
-
     button {
         width: 60px;
         height: 40px;
         border: none;
         cursor: pointer;
     }
-
     label {
         padding-left: 20px;
         cursor: pointer;
     }
-
     input[type="file"] {
         display: none;
     }
-
     svg {
         font-size:16px;
     }
@@ -239,13 +232,13 @@ const ChatInput  = ({end, ws, chatId, file, setFile}) => {
             }}><EditTwoTone /></button>
 
 
-        <button>
+        <>
 
             {v?
-                <div ref={stopButtonRef}>   <RightCircleTwoTone onClick={(e) => {
+                <span ref={stopButtonRef}>   <RightCircleTwoTone onClick={(e) => {
                     e.preventDefault()
                     audioMsg()
-                    setV(false)}} /></div>
+                    setV(false)}} /></span>
             :
             <AudioTwoTone onClick={(e) => {
                 e.preventDefault()
@@ -254,14 +247,15 @@ const ChatInput  = ({end, ws, chatId, file, setFile}) => {
             }}/>
             }
 
-            </button>
-        <input 
+            </>
+
+        {!v && <><input 
         onChange={(e) => {
             setFile((prev) => {
                 return [...prev, ...e.target.files]
             })
         }}
-        id="file" type="file"  accept="image/png, image/jpeg, ,.mp3, .mp4, .wav, .avi"/><label htmlFor="file"><PictureTwoTone /></label>
+        id="file" type="file"  accept="image/png, image/jpeg, ,.mp3, .mp4, .wav, .avi"/><label htmlFor="file"><PictureTwoTone /></label></>}
         </Form>
     )
 }
